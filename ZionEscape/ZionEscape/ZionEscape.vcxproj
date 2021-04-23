@@ -132,6 +132,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="GameController.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
@@ -142,6 +143,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FormGame.cpp" />
     <ClCompile Include="GameController.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

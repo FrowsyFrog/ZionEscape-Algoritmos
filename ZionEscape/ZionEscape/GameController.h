@@ -1,16 +1,26 @@
 #pragma once
 #include "Player.h"
+#include "Map.h"
+using namespace System::Drawing;
 using namespace System::Windows::Forms;
 
 public ref class GameController
 {
 private:
 	Player^ player;
+	Map^ oMap;
 public:
 	GameController() {
 		player = gcnew Player(Point(20, 20), 1, 5, 1);
+		oMap = gcnew Map();
 	}
-
+	void Generate() {
+		oMap->generateMatriz();
+	}
+	void Draw(Graphics^ g, Bitmap^ bmpbase, Bitmap^ bmpSolid) {
+		oMap->Paint(g, bmpbase);
+		oMap->PaintMatriz(g, bmpSolid);
+	}
 	void ShowGame(Graphics^g) {
 		player->ShowSprite(g);
 	}
