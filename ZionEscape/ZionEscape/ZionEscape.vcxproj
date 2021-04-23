@@ -127,21 +127,29 @@
     <ResourceCompile Include="app.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="FormGame.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="GameController.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Sprite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FormGame.cpp" />
+    <ClCompile Include="GameController.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="ZionEscape.cpp" />
   </ItemGroup>
   <ItemGroup>
