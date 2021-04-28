@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
-#include "Map.h"
+#include "Pathfinding.h"
+
 using namespace System::Drawing;
 using namespace System::Windows::Forms;
 
@@ -9,17 +10,18 @@ public ref class GameController
 private:
 	Player^ player;
 	Map^ oMap;
+	Pathfinding^ pathfinding;
 public:
 	GameController() {
 		player = gcnew Player(Point(20, 20), 1, 5, 1);
-		oMap = gcnew Map();
+		oMap = gcnew Map(15,17);
+		pathfinding = gcnew Pathfinding(oMap);
 	}
 	void Generate() {
 		oMap->generateMatriz();
 	}
 	void Draw(Graphics^ g, Bitmap^ bmpbase, Bitmap^ bmpSolid, Bitmap^ bmpDestroy) {
-		oMap->Paint(g, bmpbase);
-		oMap->PaintMatriz(g, bmpSolid,bmpDestroy);
+		oMap->PaintMatriz(g, bmpbase, bmpSolid, bmpDestroy);
 	}
 	void ShowGame(Graphics^g) {
 		player->ShowSprite(g);
@@ -54,6 +56,10 @@ public:
 			if (isPressed)player->SetSpriteDirection(SpriteDirections::right);
 			break;
 		}
+	}
+
+	Map^ GetMap() {
+		return oMap;
 	}
 };
 
