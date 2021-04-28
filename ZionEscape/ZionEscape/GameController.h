@@ -17,9 +17,9 @@ public:
 	void Generate() {
 		oMap->generateMatriz();
 	}
-	void Draw(Graphics^ g, Bitmap^ bmpbase, Bitmap^ bmpSolid) {
+	void Draw(Graphics^ g, Bitmap^ bmpbase, Bitmap^ bmpSolid, Bitmap^ bmpDestroy) {
 		oMap->Paint(g, bmpbase);
-		oMap->PaintMatriz(g, bmpSolid);
+		oMap->PaintMatriz(g, bmpSolid,bmpDestroy);
 	}
 	void ShowGame(Graphics^g) {
 		player->ShowSprite(g);
