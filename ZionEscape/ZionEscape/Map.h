@@ -28,7 +28,7 @@ public:
 						if ((i == 1 && (j == 1 || j == 2)) || (j==1 && i==2) || (i==Rows-2 && (j==Cols-3 || j==Cols-2)) || (i==Rows-3 && j==Cols-2)) //Zona en la que te puedes mover
 							matriz[i][j] = 0;
 						else { //Zonas que quedan //2 es libre
-							matriz[i][j] = rand() % 6;
+							matriz[i][j] = rand() % 2 + 2;
 						}
 					}
 				}
@@ -40,7 +40,7 @@ public:
 		for (int i = 0; i < Rows; ++i) {
 			X = 0;
 			for (int j = 0; j < Cols; ++j) {
-				if (matriz[i][j] == 0 || matriz[i][j] == 2)
+				if (matriz[i][j] == 0 || matriz[i][j] >= 2)
 					g->DrawImage(bmpBase, X, Y, 30, 30);
 				X += 30;
 			}
@@ -54,10 +54,10 @@ public:
 			for (int j = 0; j < Cols; ++j) {
 				if (matriz[i][j] == 1)
 					g->DrawImage(bmpSolid, X, Y, 30, 30);
-				else {
-					if (matriz[i][j] == 3 || matriz[i][j] == 4 || matriz[i][j] == 5)
+				  else {
+					if (matriz[i][j] == 3)
 						g->DrawImage(bmpDestroy, X, Y, 30, 30);
-				}
+				  }
 				X += 30;
 			}
 			Y += 30;
