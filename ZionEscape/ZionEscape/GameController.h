@@ -33,7 +33,8 @@ public:
 		
 	}
 	void Start() {
-		oMap->generateMatriz();
+		int porcentajeLadrillo = 10;
+		oMap->generateMatriz(porcentajeLadrillo);
 	}
 
 	void Resume() {
@@ -84,6 +85,13 @@ public:
 
 	Map^ GetMap() {
 		return oMap;
+	}
+	void NextLevel() {
+		if (player->GetPivotPosition() == oMap->GetNodePosition(13, 15)) {
+			oMap->generateMatriz(oMap->setPorcentajeLadrillo(5));
+			assassinGroup->ErraseAssasins();
+			player->SetPosition(Point(20, 20));
+		}
 	}
 };
 
