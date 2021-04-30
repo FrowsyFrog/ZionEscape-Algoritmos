@@ -1,7 +1,8 @@
 #pragma once
 #include "GameController.h"
-
+#include <iostream>
 namespace ZionEscape {
+	using namespace std;
 	using namespace System::Drawing;
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -18,16 +19,17 @@ namespace ZionEscape {
 		BufferedGraphics^ bf;
 
 	private: System::Windows::Forms::Timer^ animatorClock;
-	public:
-		FormGame(void)
+	public: //    void
+		bool Resume = false;
+		FormGame(bool resume)
 		{
 			InitializeComponent();
 			game = gcnew GameController();
 
 			g = this->CreateGraphics();
 			bf = BufferedGraphicsManager::Current->Allocate(g, this->ClientRectangle);
+			Resume = resume;
 		}
-
 	protected:
 		~FormGame()
 		{
@@ -76,9 +78,10 @@ namespace ZionEscape {
 #pragma endregion
 	Void clock_Tick(Object^ sender, EventArgs^ e) {
 		//Clock para mostrar imagenes y movimientos
-		game->ShowGame(bf->Graphics);
-		game->MoveEntities(bf->Graphics);
-
+		if (Resume == false) { 
+			game->ShowGame(bf->Graphics);
+			game->MoveEntities(bf->Graphics);
+		}
 		bf->Render(g);
 	}
 	private: Void FormGame_KeyDown(Object^ sender, KeyEventArgs^ e) {
@@ -93,8 +96,9 @@ namespace ZionEscape {
 		//Este clock sirve para que las animaciones no vayan tan rapido
 		game->AnimateEntities();
 	}
-	private: Void FormGame_Load(Object^ sender, EventArgs^ e) {
-		game->Generate();
+	private: System::Void FormGame_Load(Object^ sender, EventArgs^ e) {
+		if (Resume == false) { game->Start(); }
+		if (Resume == true) { game->Resume(); }
 	}
 
 	};

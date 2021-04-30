@@ -25,14 +25,16 @@ public:
 		player = gcnew Player(Point(20, 20), 1, 5, 1);
 		assassin = gcnew Assassin(Point(435, 340), 1, 3, 1, pathfinding, player);
 	}
-	void Generate() {
+	void Start() {
 		oMap->generateMatriz();
 	}
 
+	void Resume() {
+
+	}
 	void ShowGame(Graphics^g) {
 		oMap->PaintMatriz(g);
 		player->ShowSprite(g);
-		assassin->ShowSprite(g);
 	}
 
 	void MoveEntities(Graphics^ g) {
