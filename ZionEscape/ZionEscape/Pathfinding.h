@@ -4,36 +4,55 @@
 #include <math.h>
 #define MOVE_STRAIGHT_COST 30
 #define MOVER_DIAGONAL_COST 42
-
+using namespace System;
 
 ref class Pathfinding
 {
 	Map^ grid;
 	List<PathNode^>^ openList;
 	List<PathNode^>^ closedList;
-
+	
 public:
 	Pathfinding(Map^ grid) {
 		this->grid = grid;
 	}
 
-private:
-	List<PathNode^>^ FindPath(int startY, int startX, int endY, int endX) {
-		PathNode^ startNode = grid->getNode(startY, startX);
-		PathNode^ endNode = grid->getNode(endY, endX);
+	List<Point>^ FindPath(Point startWorldPosition, Point endWorldPosition) {
+		int startRow = 0, startCol = 0;
+		grid->GetLocNode(startWorldPosition, startRow, startCol);
+		int endRow = 0, endCol = 0;
+		grid->GetLocNode(endWorldPosition, endRow, endCol);
+
+		List<PathNode^>^ path = FindPath(startRow, startCol, endRow, endCol);
+		if (path == nullptr) {
+			return nullptr;
+		}
+		else {
+			List<Point>^ pointPath = gcnew List<Point>();
+			for each (PathNode^ pathnode in path)
+			{
+				pointPath->Add(Point(pathnode->col * grid->GetCellSize() + (grid->GetCellSize() * .5f) ,pathnode->row * grid->GetCellSize() + (grid->GetCellSize() * .5f)));
+			}
+			return pointPath;
+		}
+	}
+
+	List<PathNode^>^ FindPath(int startRow, int startCol, int endRow, int endCol) {
+		PathNode^ startNode = GetNode(startRow, startCol);
+		PathNode^ endNode = GetNode(endRow, endCol);
 
 		openList = gcnew List<PathNode^>(); openList->Add(startNode);
 		closedList = gcnew List<PathNode^>();
-	
+
 		for (int i = 0; i < grid->getRows(); i++) {
-			for (int j = 0; j < grid->getCols(); i++) {
-				PathNode^ pathNode = grid->getNode(i, j);
+			for (int j = 0; j < grid->getCols(); j++) {
+				PathNode^ pathNode = GetNode(i, j);
 				pathNode->gCost = INT_MAX;
 				pathNode->CalculateFCost();
 				pathNode->cameFromNode = nullptr;
 			}
 		}
-	
+
 		startNode->gCost = 0;
 		startNode->hCost = CalculateDistanceCost(startNode, endNode);
 		startNode->CalculateFCost();
@@ -41,15 +60,20 @@ private:
 		while (openList->Count > 0) {
 			PathNode^ currentNode = GetLowestFCostNode(openList);
 			if (currentNode == endNode) {
+				//Alcanza el último nodo
 				return CalculatePath(endNode);
 			}
 
 			openList->Remove(currentNode);
 			closedList->Add(currentNode);
 
-			for each (PathNode^ neighbourNode in GetNeighbourList(currentNode))
+			for each (PathNode ^ neighbourNode in GetNeighbourList(currentNode))
 			{
 				if (closedList->Contains(neighbourNode)) continue;
+				else if (neighbourNode->value != 0) {
+					closedList->Add(neighbourNode);
+					continue;
+				}
 
 				int tentativeGCost = currentNode->gCost + CalculateDistanceCost(currentNode, neighbourNode);
 				if (tentativeGCost < neighbourNode->gCost) {
@@ -68,44 +92,43 @@ private:
 		return nullptr;
 	}
 
+	Map^ GetGrid() {
+		return grid;
+	}
+
+private:
+
 	List<PathNode^>^ GetNeighbourList(PathNode^ currentNode) {
 		List<PathNode^>^ neighbourList = gcnew List<PathNode^>();
-		if (currentNode->y - 1 >= 0) {
-			//Left
-			neighbourList->Add(GetNode(currentNode->y - 1, currentNode->x));
-			//Left Down
-			if (currentNode->x - 1 >= 0) neighbourList->Add(GetNode(currentNode->y - 1, currentNode->x - 1));
-			//Left up
-			if (currentNode->x + 1 < grid->getRows()) neighbourList->Add(GetNode(currentNode->y - 1, currentNode->x - 1));
-		}
-		if (currentNode->y + 1 < grid->getCols()) {
-			//Right
-			neighbourList->Add(GetNode(currentNode->y + 1, currentNode->x));
-			//Right Down
-			if (currentNode->x - 1 >= 0) neighbourList->Add(GetNode(currentNode->y + 1, currentNode->x - 1));
-			//Right up
-			if (currentNode->x + 1 < grid->getRows()) neighbourList->Add(GetNode(currentNode->y + 1, currentNode->x + 1));
-		}
+		//Left
+		if (currentNode->col - 1 >= 0) neighbourList->Add(GetNode(currentNode->row, currentNode->col - 1));
+		//Right
+		if (currentNode->col + 1 < grid->getCols()) neighbourList->Add(GetNode(currentNode->row, currentNode->col + 1));
+		//Up
+		if (currentNode->row - 1 >= 0) neighbourList->Add(GetNode(currentNode->row - 1, currentNode->col));
 		//Down
-		if (currentNode->x - 1 >= 0) neighbourList->Add(GetNode(currentNode->y, currentNode->x - 1));
-		//Right up
-		if (currentNode->x + 1 < grid->getRows()) neighbourList->Add(GetNode(currentNode->y, currentNode->x + 1));
+		if (currentNode->row + 1 < grid->getRows()) neighbourList->Add(GetNode(currentNode->row + 1, currentNode->col));
 
 		return neighbourList;
 	}
 
-
 	List<PathNode^>^ CalculatePath(PathNode^ endNode) {
-		return nullptr;
+		List<PathNode^>^ path = gcnew List<PathNode^>();
+		path->Add(endNode);
+		PathNode^ currentNode = endNode;
+		while (currentNode->cameFromNode != nullptr) {
+			path->Add(currentNode->cameFromNode);
+			currentNode = currentNode->cameFromNode;
+		}
+		path->Reverse();
+		return path;
 	}
 
-
 	int CalculateDistanceCost(PathNode^ a, PathNode^ b) {
-		int xDistance = abs(a->x - b->x);
-		int yDistance = abs(a->y - b->y);
-		int remaining = abs(xDistance - yDistance);
-
-		return MOVER_DIAGONAL_COST * fmin(xDistance, yDistance) + MOVE_STRAIGHT_COST * remaining;
+		int rowDistance = Math::Abs(a->col - b->col);
+		int colDistance = Math::Abs(a->row - b->row);
+		int remaining = Math::Abs(rowDistance - colDistance);
+		return MOVER_DIAGONAL_COST * Math::Min(rowDistance, colDistance) + MOVE_STRAIGHT_COST * remaining;
 	}
 
 	PathNode^ GetLowestFCostNode(List<PathNode^>^ pathNodeList) {
@@ -118,8 +141,8 @@ private:
 		return lowestFCostNode;
 	}
 
-	PathNode^ GetNode(int y, int x) {
-		return grid->getNode(y, x);
+	PathNode^ GetNode(int row, int col) {
+		return grid->getNode(row, col);
 	}
 };
 

@@ -11,8 +11,5 @@ public:
 		SetColumnsRows(4, 4);
 		SetFrameSize();
 	}
-
-
-
 };
 

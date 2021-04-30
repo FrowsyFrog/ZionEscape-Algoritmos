@@ -21,10 +21,10 @@ public:
 		
 		if(position.X + dx >= 0 && position.X + frameSize.X + dx < g->VisibleClipBounds.Width)
 			position.X += dx;
-		if(position.Y + dx >= 0 && position.Y + frameSize.Y + dy < g->VisibleClipBounds.Height)
+		if(position.Y + dy >= 0 && position.Y + frameSize.Y + dy < g->VisibleClipBounds.Height)
 			position.Y += dy;
 	}
-
+	
 	virtual void AnimateEnitity() {
 		if (dx != 0 || dy != 0)
 			IDx = (IDx + 1) % spriteColumns;
@@ -40,6 +40,10 @@ public:
 	}
 	float GetSpeed() {
 		return speed;
+	}
+
+	Point GetPivotPosition() {
+		return Point(position.X + 30, position.Y + 55);
 	}
 
 

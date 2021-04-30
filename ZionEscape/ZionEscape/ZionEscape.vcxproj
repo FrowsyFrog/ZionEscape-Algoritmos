@@ -127,6 +127,7 @@
     <ResourceCompile Include="app.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Assassin.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FormGame.h">
       <FileType>CppForm</FileType>
@@ -141,6 +142,7 @@
     <ClInclude Include="Sprite.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Assassin.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FormGame.cpp" />

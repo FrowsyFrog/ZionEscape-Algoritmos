@@ -3,8 +3,8 @@
 ref class PathNode
 {
 public:
-	int x;
-	int y;
+	int row;
+	int col;
 
 	int value;
 	int gCost;
@@ -13,7 +13,7 @@ public:
 
 	PathNode^ cameFromNode;
 
-	PathNode(int y, int x) : y(y), x(x) {}
+	PathNode(int r, int c) : row(r), col(c) {}
 
 	void CalculateFCost() {
 		fCost = gCost + hCost;
