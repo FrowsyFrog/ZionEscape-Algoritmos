@@ -12,9 +12,9 @@ public:
 		matriz = new int* [Rows];
 	}
 	~Map(){}
-	void generateMatriz() {
+	void generateMatriz() { 
 		srand(time(NULL()));
-		for (int i = 0; i < Rows; ++i) {
+		for (int i = 0; i < Rows; ++i) { 
 			matriz[i] = new int[Cols];
 		}
 		for (int i = 0; i < Rows; ++i) {
@@ -40,7 +40,7 @@ public:
 		for (int i = 0; i < Rows; ++i) {
 			X = 0;
 			for (int j = 0; j < Cols; ++j) {
-				if (matriz[i][j] == 0 || matriz[i][j] >= 2)
+				if (matriz[i][j] == 0 || matriz[i][j] == 2)
 					g->DrawImage(bmpBase, X, Y, 30, 30);
 				X += 30;
 			}

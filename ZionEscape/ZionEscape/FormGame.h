@@ -1,7 +1,8 @@
 #pragma once
 #include "GameController.h"
-
+#include <iostream>
 namespace ZionEscape {
+	using namespace std;
 	using namespace System::Drawing;
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -22,15 +23,16 @@ namespace ZionEscape {
 		   Bitmap^ bmpBase = gcnew Bitmap("Sprites\\MapBlocks\\bmpSuelo.png");
 		   Bitmap^ bmpSolid = gcnew Bitmap("Sprites\\MapBlocks\\bmpSolido.png");
 		   Bitmap^ bmpDestroy = gcnew Bitmap("Sprites\\MapBlocks\\bmpDestruible.png");
-	public:
-		FormGame(void)
+	public: //    void
+		bool Resume = false;
+		FormGame(bool resume)
 		{
 			InitializeComponent();
 			game = gcnew GameController();
 	
 			g = this->CreateGraphics();
+			Resume = resume;
 		}
-
 	protected:
 		~FormGame()
 		{
@@ -83,11 +85,11 @@ namespace ZionEscape {
 		Graphics^ g = this->CreateGraphics();
 		BufferedGraphicsContext^ space = BufferedGraphicsManager::Current;
 		BufferedGraphics^ bf = space->Allocate(g, this->ClientRectangle);
-
-		game->Draw(bf->Graphics, bmpBase, bmpSolid, bmpDestroy);
-		game->ShowGame(bf->Graphics);
-		game->MoveEntities(bf->Graphics);
-
+		if (Resume == false) { 
+			game->Draw(bf->Graphics, bmpBase, bmpSolid, bmpDestroy);
+			game->ShowGame(bf->Graphics);
+			game->MoveEntities(bf->Graphics);
+		}
 		bf->Render(g);
 		delete bf, space, g;
 	}
@@ -103,8 +105,9 @@ namespace ZionEscape {
 		//Este clock sirve para que las animaciones no vayan tan rapido
 		game->AnimateEntities();
 	}
-	private: System::Void FormGame_Load(System::Object^ sender, System::EventArgs^ e) {
-		game->Generate();
+	private: System::Void FormGame_Load(Object^ sender, EventArgs^ e) {
+		if (Resume == false) { game->Start(); }
+		if (Resume == true) { game->Resume(); }
 	}
 };
 }

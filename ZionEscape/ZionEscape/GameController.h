@@ -14,8 +14,11 @@ public:
 		player = gcnew Player(Point(20, 20), 1, 5, 1);
 		oMap = gcnew Map();
 	}
-	void Generate() {
+	void Start() {
 		oMap->generateMatriz();
+	}
+	void Resume() {
+
 	}
 	void Draw(Graphics^ g, Bitmap^ bmpbase, Bitmap^ bmpSolid, Bitmap^ bmpDestroy) {
 		oMap->Paint(g, bmpbase);
