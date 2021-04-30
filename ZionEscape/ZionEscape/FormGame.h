@@ -83,6 +83,7 @@ namespace ZionEscape {
 	Void clock_Tick(Object^ sender, EventArgs^ e) {
 		//Clock para mostrar imagenes y movimientos
 		if (isResumed == false) { 
+			game->NextLevel();
 			game->ShowGame(bf->Graphics);
 			game->MoveEntities(bf->Graphics);
 		}

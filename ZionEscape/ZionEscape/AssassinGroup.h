@@ -41,6 +41,14 @@ public:
 		if (assassin->GetDrawingArea().IntersectsWith(targetEntity->GetDrawingArea())) return true;
 		return false;
 	}
+	void ErraseAssasins() {
+		for (unsigned currentAssassin = this->assassins->Count; currentAssassin > 0; --currentAssassin) {
+			this->assassins[currentAssassin - 1] = nullptr;
+			delete this->assassins[currentAssassin - 1];
+			//Delete from the list
+			assassins->Remove(assassins[currentAssassin - 1]);
+		}
+	}
 
 	void AnimateAssassins() {
 		for each (Assassin ^ assassin in assassins)
