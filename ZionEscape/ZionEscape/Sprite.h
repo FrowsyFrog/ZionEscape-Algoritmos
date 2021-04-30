@@ -51,6 +51,10 @@ public:
 		return Rectangle(position.X, position.Y, frameSize.X, frameSize.Y);
 	}
 
+	Rectangle GetDrawingArea(Point offSet, float scale) {
+		return Rectangle(position.X + offSet.X, position.Y + offSet.Y, frameSize.X * scale, frameSize.Y * scale);
+	}
+
 	Rectangle GetCropArea() {
 		return Rectangle(IDx * frameSize.X, spriteDirection * frameSize.Y, frameSize.X, frameSize.Y);
 	}

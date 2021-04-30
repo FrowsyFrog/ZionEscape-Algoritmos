@@ -128,11 +128,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assassin.h" />
+    <ClInclude Include="AssassinGroup.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FormGame.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="GameController.h" />
+    <ClInclude Include="HeartUI.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="PathNode.h" />
@@ -146,10 +148,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Assassin.cpp" />
+    <ClCompile Include="AssassinGroup.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FormGame.cpp" />
     <ClCompile Include="GameController.cpp" />
+    <ClCompile Include="HeartUI.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="PathNode.cpp" />

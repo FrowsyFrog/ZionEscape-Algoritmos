@@ -3,27 +3,21 @@
 #include "Pathfinding.h"
 ref class Assassin : public Entity
 {
-	Pathfinding^ pathfinding;
 	List<Point>^  pathPointList;
-
-	Entity^ targetEntity;
 	int currentPathIndex;
 
 public:
-	Assassin(Point pos, int life, float speed, int damage, Pathfinding^ pf, Entity^ t) : Entity(pos, life, speed, damage) {
+	Assassin(Point pos, int life, float speed, int damage) : Entity(pos, life, speed, damage) {
 		//Establecer sprite jugador
 		sprite = gcnew Bitmap("Sprites\\Characters\\assassin.png");
 		//Establecer filas y columnas del sprite
 		SetColumnsRows(4, 4);
 		SetFrameSize();
-
-		this->pathfinding = pf;
-		this->targetEntity = t;
 	}
 
-	void SetTargetPosition() {
+	void SetTargetPosition(Point targetPos, Pathfinding^ pathfinding) {
 		currentPathIndex = 0;
-		Point targetPosition(targetEntity->GetPivotPosition().X, targetEntity->GetPivotPosition().Y);
+		Point targetPosition(targetPos.X, targetPos.Y);
 		
 		pathPointList = pathfinding->FindPath(GetPivotPosition(), targetPosition);
 

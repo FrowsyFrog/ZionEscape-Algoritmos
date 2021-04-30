@@ -38,9 +38,19 @@ public:
 	void SetDY(int value) {
 		dy = value;
 	}
+	void SetLifePoints(int value) {
+		lifePoints = value;
+	}
 	float GetSpeed() {
 		return speed;
 	}
+	int GetLifePoints() {
+		return lifePoints;
+	}
+	int GetDamagePoints() {
+		return damagePoints;
+	}
+
 
 	Point GetPivotPosition() {
 		return Point(position.X + 30, position.Y + 55);
