@@ -1,6 +1,8 @@
 #pragma once
 #include "Player.h"
-#include "Map.h"
+#include "Assassin.h"
+#include "Pathfinding.h"
+
 using namespace System::Drawing;
 using namespace System::Windows::Forms;
 
@@ -8,32 +10,47 @@ public ref class GameController
 {
 private:
 	Player^ player;
+	Assassin^ assassin;
+
 	Map^ oMap;
+	Pathfinding^ pathfinding;
+	
+	List<PathNode^>^ path;
 public:
 	GameController() {
+
+		oMap = gcnew Map(15, 17);
+		pathfinding = gcnew Pathfinding(oMap);
+
 		player = gcnew Player(Point(20, 20), 1, 5, 1);
-		oMap = gcnew Map();
+		assassin = gcnew Assassin(Point(435, 340), 1, 3, 1, pathfinding, player);
 	}
 	void Start() {
 		oMap->generateMatriz();
 	}
+
 	void Resume() {
 
 	}
-	void Draw(Graphics^ g, Bitmap^ bmpbase, Bitmap^ bmpSolid, Bitmap^ bmpDestroy) {
-		oMap->Paint(g, bmpbase);
-		oMap->PaintMatriz(g, bmpSolid,bmpDestroy);
-	}
+
 	void ShowGame(Graphics^g) {
+		oMap->PaintMatriz(g);
 		player->ShowSprite(g);
+		assassin->ShowSprite(g);
 	}
 
 	void MoveEntities(Graphics^ g) {
 		player->MoveEntity(g);
+
+		//Mover enemigo, los3 son necesarios!
+		assassin->SetTargetPosition();
+		assassin->HandleMovement();
+		assassin->MoveEntity(g);
 	}
 
 	void AnimateEntities() {
 		player->AnimateEnitity();
+		assassin->AnimateEnitity();
 	}
 
 	void PlayerMovement(bool isPressed, Keys keyPressed) {
@@ -57,6 +74,10 @@ public:
 			if (isPressed)player->SetSpriteDirection(SpriteDirections::right);
 			break;
 		}
+	}
+
+	Map^ GetMap() {
+		return oMap;
 	}
 };
 

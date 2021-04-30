@@ -26,12 +26,12 @@ protected:
 public:
 	Sprite(): IDx(0), spriteDirection(SpriteDirections::down){}
 
-	Rectangle GetDrawingArea() {
-		return Rectangle(position.X, position.Y, frameSize.X, frameSize.Y);
-	}
-
 	virtual void ShowSprite(Graphics^ g) {
 		g->DrawImage(sprite, GetDrawingArea(), GetCropArea(), GraphicsUnit::Pixel);
+	}
+
+	void SetPosition(Point pos) {
+		position = pos;
 	}
 
 	void SetSpriteDirection(SpriteDirections direction) {
@@ -47,8 +47,16 @@ public:
 		spriteRows = rows;
 	}
 
+	Rectangle GetDrawingArea() {
+		return Rectangle(position.X, position.Y, frameSize.X, frameSize.Y);
+	}
+
 	Rectangle GetCropArea() {
 		return Rectangle(IDx * frameSize.X, spriteDirection * frameSize.Y, frameSize.X, frameSize.Y);
+	}
+
+	Point GetPosition() {
+		return position;
 	}
 };
 

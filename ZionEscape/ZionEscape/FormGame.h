@@ -13,25 +13,23 @@ namespace ZionEscape {
 
 	public ref class FormGame : public System::Windows::Forms::Form
 	{
+		Form^ formMenu;
 		GameController^ game;
-
 		Graphics^ g;
+		BufferedGraphics^ bf;
+		bool isResumed;
+
 	private: System::Windows::Forms::Timer^ animatorClock;
-
-
-		   BufferedGraphics^ bf;
-		   Bitmap^ bmpBase = gcnew Bitmap("Sprites\\MapBlocks\\bmpSuelo.png");
-		   Bitmap^ bmpSolid = gcnew Bitmap("Sprites\\MapBlocks\\bmpSolido.png");
-		   Bitmap^ bmpDestroy = gcnew Bitmap("Sprites\\MapBlocks\\bmpDestruible.png");
 	public: //    void
-		bool Resume = false;
-		FormGame(bool resume)
+		FormGame(Form^ form, bool resume)
 		{
 			InitializeComponent();
+			formMenu = form;
 			game = gcnew GameController();
-	
+
 			g = this->CreateGraphics();
-			Resume = resume;
+			bf = BufferedGraphicsManager::Current->Allocate(g, this->ClientRectangle);
+			isResumed = resume;
 		}
 	protected:
 		~FormGame()
@@ -67,12 +65,14 @@ namespace ZionEscape {
 			// 
 			// FormGame
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(678, 551);
-			this->Margin = System::Windows::Forms::Padding(4);
+			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
+			this->ClientSize = System::Drawing::Size(508, 448);
+			this->MaximizeBox = false;
 			this->Name = L"FormGame";
-			this->Text = L"FormGame";
+			this->Text = L"ZionEscape";
+			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &FormGame::FormGame_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &FormGame::FormGame_Load);
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &FormGame::FormGame_KeyDown);
 			this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &FormGame::FormGame_KeyUp);
@@ -82,32 +82,31 @@ namespace ZionEscape {
 #pragma endregion
 	Void clock_Tick(Object^ sender, EventArgs^ e) {
 		//Clock para mostrar imagenes y movimientos
-		Graphics^ g = this->CreateGraphics();
-		BufferedGraphicsContext^ space = BufferedGraphicsManager::Current;
-		BufferedGraphics^ bf = space->Allocate(g, this->ClientRectangle);
-		if (Resume == false) { 
-			game->Draw(bf->Graphics, bmpBase, bmpSolid, bmpDestroy);
+		if (isResumed == false) { 
 			game->ShowGame(bf->Graphics);
 			game->MoveEntities(bf->Graphics);
 		}
 		bf->Render(g);
-		delete bf, space, g;
 	}
-	private: System::Void FormGame_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+	private: Void FormGame_KeyDown(Object^ sender, KeyEventArgs^ e) {
 		game->PlayerMovement(true, e->KeyCode);
 	}
 
-	private: System::Void FormGame_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+	private: Void FormGame_KeyUp(Object^ sender, KeyEventArgs^ e) {
 		game->PlayerMovement(false, e->KeyCode);
 	}
 
-	private: System::Void animatorClock_Tick(System::Object^ sender, System::EventArgs^ e) {
+	private: Void animatorClock_Tick(Object^ sender, System::EventArgs^ e) {
 		//Este clock sirve para que las animaciones no vayan tan rapido
 		game->AnimateEntities();
 	}
-	private: System::Void FormGame_Load(Object^ sender, EventArgs^ e) {
-		if (Resume == false) { game->Start(); }
-		if (Resume == true) { game->Resume(); }
+	private: Void FormGame_Load(Object^ sender, EventArgs^ e) {
+		if (isResumed == false) { game->Start(); }
+		if (isResumed == true) { game->Resume(); }
 	}
-};
+
+	private: Void FormGame_FormClosed(Object^ sender, FormClosedEventArgs^ e) {
+		formMenu->Close();
+	}
+	};
 }

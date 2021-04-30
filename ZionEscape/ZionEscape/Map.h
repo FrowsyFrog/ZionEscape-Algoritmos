@@ -1,68 +1,100 @@
 #pragma once
+
 #include <ctime>
-#include <stdlib.h>
+#include <stdlib.h> 
+#include "PathNode.h"
+#define CELL_SIZE 30
 using namespace System::Drawing;
-#define Rows 15
-#define Cols 17
+using namespace System::Runtime::InteropServices;
+using System::Collections::Generic::List;
+
+
 
 ref class Map {
-	int** matriz;
+	//TGridObject^^ matriz;
+	List<List<PathNode^>^>^ matriz;
+
+	Bitmap^ bmpBase;
+	Bitmap^ bmpSolid;
+	Bitmap^ bmpDestroy;
+
+	int rows, cols;
+	int porcentajeLadrillo = 10;
+
 public:
-	Map() {
-		matriz = new int* [Rows];
+	Map(int r, int c): rows(r), cols(c) {
+		matriz = gcnew List<List<PathNode^>^>();
+		bmpBase = gcnew Bitmap("Sprites\\MapBlocks\\bmpSuelo.png");
+		bmpSolid = gcnew Bitmap("Sprites\\MapBlocks\\bmpSolido.png");
+		bmpDestroy = gcnew Bitmap("Sprites\\MapBlocks\\bmpDestruible.png");
 	}
-	~Map(){}
-	void generateMatriz() { 
+
+	void generateMatriz() {
 		srand(time(NULL()));
-		for (int i = 0; i < Rows; ++i) { 
-			matriz[i] = new int[Cols];
-		}
-		for (int i = 0; i < Rows; ++i) {
-			for (int j = 0; j < Cols; ++j) {
-				//       0         0
-				if (i == 0 || j == 0 || i == Rows - 1 || j == Cols - 1)//Marco al rededor del mapa
-					matriz[i][j] = 1;
-				else {
-					if (i % 2 == 0 && j % 2 == 0) matriz[i][j] = 1; //Bloques fijos en el interior
-					else {  //    1          1
-						if ((i == 1 && (j == 1 || j == 2)) || (j==1 && i==2) || (i==Rows-2 && (j==Cols-3 || j==Cols-2)) || (i==Rows-3 && j==Cols-2)) //Zona en la que te puedes mover
-							matriz[i][j] = 0;
-						else { //Zonas que quedan //2 es libre
-							matriz[i][j] = rand() % 2 + 2;
-						}
-					}
-				}
+		for (int i = 0; i < rows; ++i) {
+			matriz->Add(gcnew List<PathNode^>());
+			for (int j = 0; j < cols; ++j) {
+
+				matriz[i]->Add(gcnew PathNode(i, j));
+				////       0         0
+				if ((i == 0 || j == 0 || i == rows - 1 || j == cols - 1) || (i % 2 == 0 && j % 2 == 0)) matriz[i][j]->value = 2;//Marco al rededor del mapa //Bloques fijos en el interior
+				else if ((i == 1 && (j == 1 || j == 2)) || (j == 1 && i == 2) || (i == rows - 2 && (j == cols - 3 || j == cols - 2)) || (i == rows - 3 && j == cols - 2)) matriz[i][j]->value = 0; //Bloques libres en las esquinas
+				else matriz[i][j]->value = GetRandomNodeValue();
 			}
 		}
 	}
-	void Paint(Graphics^ g, Bitmap^ bmpBase) {
+	
+	void PaintMatriz(Graphics^ g) {
 		int X, Y = 0;
-		for (int i = 0; i < Rows; ++i) {
+		for (int i = 0; i < rows; ++i) {
 			X = 0;
-			for (int j = 0; j < Cols; ++j) {
-				if (matriz[i][j] == 0 || matriz[i][j] == 2)
-					g->DrawImage(bmpBase, X, Y, 30, 30);
+			for (int j = 0; j < cols; ++j) {
+				if (matriz[i][j]->value == 0)
+					g->DrawImage(bmpBase, X, Y, CELL_SIZE, CELL_SIZE);
+				else if (matriz[i][j]->value == 1)
+					g->DrawImage(bmpDestroy, X, Y, CELL_SIZE, CELL_SIZE);
+				else if (matriz[i][j]->value == 2)
+					g->DrawImage(bmpSolid, X, Y, CELL_SIZE, CELL_SIZE);
 				X += 30;
 			}
 			Y += 30;
 		}
 	}
-	void PaintMatriz(Graphics^ g, Bitmap^ bmpSolid, Bitmap^ bmpDestroy) {
-		int X, Y = 0;
-		for (int i = 0; i < Rows; ++i) {
-			X = 0;
-			for (int j = 0; j < Cols; ++j) {
-				if (matriz[i][j] == 1)
-					g->DrawImage(bmpSolid, X, Y, 30, 30);
-				  else {
-					if (matriz[i][j] == 3)
-						g->DrawImage(bmpDestroy, X, Y, 30, 30);
-				  }
-				X += 30;
-			}
-			Y += 30;
-		}
+
+	List<List<PathNode^>^>^ getMatriz() {
+		return matriz; 
 	}
-	int** getMatriz() { return matriz; }
+
+	PathNode^ getNode(int row, int col) {
+		return matriz[row][col];
+	}
+	
+	int getRows() {
+		return rows;
+	}
+
+	int getCols() {
+		return cols;
+	}
+
+	void GetLocNode(Point position, [Out] int% row, [Out] int% col) {
+		row = (int)(position.Y / CELL_SIZE);
+		col = (int)(position.X / CELL_SIZE);
+	}
+
+	int GetCellSize() {
+		return CELL_SIZE;
+	}
+
+private:
+	int GetRandomNodeValue() {
+		
+		int value = rand() % 100;
+		return value >= porcentajeLadrillo ? 0 : 1;
+
+	}
 };
+
+
+
 
