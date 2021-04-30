@@ -29,7 +29,7 @@ public:
 		bmpDestroy = gcnew Bitmap("Sprites\\MapBlocks\\bmpDestruible.png");
 	}
 
-	void generateMatriz() {
+	void generateMatriz(int porcentajeLadrillo) {
 		srand(time(NULL()));
 		for (int i = 0; i < rows; ++i) {
 			matriz->Add(gcnew List<PathNode^>());
@@ -39,7 +39,7 @@ public:
 				////       0         0
 				if ((i == 0 || j == 0 || i == rows - 1 || j == cols - 1) || (i % 2 == 0 && j % 2 == 0)) matriz[i][j]->value = 2;//Marco al rededor del mapa //Bloques fijos en el interior
 				else if ((i == 1 && (j == 1 || j == 2)) || (j == 1 && i == 2) || (i == rows - 2 && (j == cols - 3 || j == cols - 2)) || (i == rows - 3 && j == cols - 2)) matriz[i][j]->value = 0; //Bloques libres en las esquinas
-				else matriz[i][j]->value = GetRandomNodeValue();
+				else matriz[i][j]->value = GetRandomNodeValue(porcentajeLadrillo);
 			}
 		}
 	}
@@ -85,6 +85,12 @@ public:
 	int GetCellSize() {
 		return CELL_SIZE;
 	}
+	Point GetNodePosition(int row, int col) {
+		Point nodePosition(col * CELL_SIZE + (CELL_SIZE * .5f), row * CELL_SIZE + (CELL_SIZE * .5f));
+		return nodePosition;
+	}
+	int getPorcentajeLadrillo() { return porcentajeLadrillo; }
+	int setPorcentajeLadrillo(int newPorcentaje) { return porcentajeLadrillo = porcentajeLadrillo + newPorcentaje; }
 
 	Point GetNodePosition(PathNode^ pathNode) {
 		return GetNodePosition(pathNode->row, pathNode->col);
@@ -96,7 +102,7 @@ public:
 	}
 
 private:
-	int GetRandomNodeValue() {
+	int GetRandomNodeValue(int porcentajeLadrillo) {
 		
 		int value = rand() % 100;
 		return value >= porcentajeLadrillo ? 0 : 1;
