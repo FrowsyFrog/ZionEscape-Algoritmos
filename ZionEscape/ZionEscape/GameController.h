@@ -3,9 +3,13 @@
 #include "AssassinGroup.h"
 #include "Pathfinding.h"
 #include "HeartUI.h";
+#include <iostream>
+
 
 using namespace System::Drawing;
 using namespace System::Windows::Forms;
+using namespace System::Collections::Generic;
+using namespace std;
 
 public ref class GameController
 {
@@ -18,6 +22,7 @@ private:
 	Pathfinding^ pathfinding;
 	
 	List<PathNode^>^ path;
+
 public:
 	GameController() {
 
@@ -30,10 +35,15 @@ public:
 		assassinGroup->SpawnAssassin(Point(435, 340));
 
 		hearts = gcnew HeartUI(player, Point(30, 0), .65f);
+
+		Rectangle rect = Rectangle(0, 0, 150, 100);
+		
 		
 	}
 	void Start() {
+
 		oMap->generateMatriz();
+		player->oMap = oMap;	
 	}
 
 	void Resume() {
@@ -50,8 +60,6 @@ public:
 
 	void MoveEntities(Graphics^ g) {
 		player->MoveEntity(g);
-		
-		//Mover enemigo, los3 son necesarios!
 	}
 
 	void AnimateEntities() {
@@ -61,26 +69,29 @@ public:
 
 	void PlayerMovement(bool isPressed, Keys keyPressed) {
 
+		int _x = player->GetPivotPosition().X;
+		int _y = player->GetPivotPosition().Y;
 		switch (keyPressed)
 		{
 		case Keys::Up:
-			player->SetDY(-player->GetSpeed() * isPressed);
-			if(isPressed)player->SetSpriteDirection(SpriteDirections::up);
-			break;
+				player->SetDY(-player->GetSpeed() * isPressed);
+				if (isPressed)player->SetSpriteDirection(SpriteDirections::up);
+				break;
 		case Keys::Down:
-			player->SetDY(player->GetSpeed() * isPressed);
-			if (isPressed)player->SetSpriteDirection(SpriteDirections::down);
+				player->SetDY(player->GetSpeed() * isPressed);
+				if (isPressed)player->SetSpriteDirection(SpriteDirections::down);
 			break;
 		case Keys::Left:
-			player->SetDX(-player->GetSpeed() * isPressed);
-			if (isPressed)player->SetSpriteDirection(SpriteDirections::left);
+				player->SetDX(-player->GetSpeed() * isPressed);
+				if (isPressed)player->SetSpriteDirection(SpriteDirections::left);
 			break;
 		case Keys::Right:
-			player->SetDX(player->GetSpeed() * isPressed);
-			if (isPressed)player->SetSpriteDirection(SpriteDirections::right);
+				player->SetDX(player->GetSpeed() * isPressed);
+				if (isPressed)player->SetSpriteDirection(SpriteDirections::right);
 			break;
 		}
 	}
+
 
 	Map^ GetMap() {
 		return oMap;
