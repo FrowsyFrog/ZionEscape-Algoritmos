@@ -1,7 +1,8 @@
 #pragma once
 #include "Player.h"
-#include "Assassin.h"
+#include "AssassinGroup.h"
 #include "Pathfinding.h"
+#include "HeartUI.h";
 
 using namespace System::Drawing;
 using namespace System::Windows::Forms;
@@ -10,7 +11,8 @@ public ref class GameController
 {
 private:
 	Player^ player;
-	Assassin^ assassin;
+	HeartUI^ hearts;
+	AssassinGroup^ assassinGroup;
 
 	Map^ oMap;
 	Pathfinding^ pathfinding;
@@ -22,8 +24,13 @@ public:
 		oMap = gcnew Map(15, 17);
 		pathfinding = gcnew Pathfinding(oMap);
 
-		player = gcnew Player(Point(20, 20), 1, 5, 1);
-		assassin = gcnew Assassin(Point(435, 340), 1, 3, 1, pathfinding, player);
+		player = gcnew Player(Point(20, 20), 3, 5, 1);
+
+		assassinGroup = gcnew AssassinGroup(player, pathfinding);
+		assassinGroup->SpawnAssassin(Point(435, 340));
+
+		hearts = gcnew HeartUI(player, Point(30, 0), .65f);
+		
 	}
 	void Start() {
 		oMap->generateMatriz();
@@ -36,21 +43,20 @@ public:
 	void ShowGame(Graphics^g) {
 		oMap->PaintMatriz(g);
 		player->ShowSprite(g);
-		assassin->ShowSprite(g);
+		assassinGroup->ActionAssasins(g);
+
+		hearts->ShowHearts(g);
 	}
 
 	void MoveEntities(Graphics^ g) {
 		player->MoveEntity(g);
-
+		
 		//Mover enemigo, los3 son necesarios!
-		assassin->SetTargetPosition();
-		assassin->HandleMovement();
-		assassin->MoveEntity(g);
 	}
 
 	void AnimateEntities() {
 		player->AnimateEnitity();
-		assassin->AnimateEnitity();
+		assassinGroup->AnimateAssassins();
 	}
 
 	void PlayerMovement(bool isPressed, Keys keyPressed) {

@@ -56,6 +56,12 @@
     <ClInclude Include="PrincipalMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AssassinGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeartUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ZionEscape.cpp">
@@ -95,6 +101,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PrincipalMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AssassinGroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HeartUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
