@@ -26,14 +26,14 @@ public:
 
 		player = gcnew Player(Point(20, 20), 3, 5, 1);
 
-		assassinGroup = gcnew AssassinGroup(player, pathfinding);
-		assassinGroup->SpawnAssassin(Point(435, 340));
+		assassinGroup = gcnew AssassinGroup(player, pathfinding, 4, 3);
 
 		hearts = gcnew HeartUI(player, Point(30, 0), .65f);
 		
 	}
 	void Start() {
 		oMap->generateMatriz();
+		assassinGroup->ResetAllowedSpawnPoints();
 	}
 
 	void Resume() {
@@ -43,6 +43,7 @@ public:
 	void ShowGame(Graphics^g) {
 		oMap->PaintMatriz(g);
 		player->ShowSprite(g);
+
 		assassinGroup->ActionAssasins(g);
 
 		hearts->ShowHearts(g);

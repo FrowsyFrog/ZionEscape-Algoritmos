@@ -86,6 +86,15 @@ public:
 		return CELL_SIZE;
 	}
 
+	Point GetNodePosition(PathNode^ pathNode) {
+		return GetNodePosition(pathNode->row, pathNode->col);
+	}
+
+	Point GetNodePosition(int row, int col) {
+		Point nodePosition(col * CELL_SIZE + (CELL_SIZE * .5f), row * CELL_SIZE + (CELL_SIZE * .5f));
+		return nodePosition;
+	}
+
 private:
 	int GetRandomNodeValue() {
 		
