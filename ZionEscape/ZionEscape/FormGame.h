@@ -13,22 +13,23 @@ namespace ZionEscape {
 
 	public ref class FormGame : public System::Windows::Forms::Form
 	{
+		Form^ formMenu;
 		GameController^ game;
-
 		Graphics^ g;
 		BufferedGraphics^ bf;
+		bool isResumed;
 
 	private: System::Windows::Forms::Timer^ animatorClock;
 	public: //    void
-		bool Resume = false;
-		FormGame(bool resume)
+		FormGame(Form^ form, bool resume)
 		{
 			InitializeComponent();
+			formMenu = form;
 			game = gcnew GameController();
 
 			g = this->CreateGraphics();
 			bf = BufferedGraphicsManager::Current->Allocate(g, this->ClientRectangle);
-			Resume = resume;
+			isResumed = resume;
 		}
 	protected:
 		~FormGame()
@@ -66,9 +67,12 @@ namespace ZionEscape {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
 			this->ClientSize = System::Drawing::Size(508, 448);
+			this->MaximizeBox = false;
 			this->Name = L"FormGame";
-			this->Text = L"FormGame";
+			this->Text = L"ZionEscape";
+			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &FormGame::FormGame_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &FormGame::FormGame_Load);
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &FormGame::FormGame_KeyDown);
 			this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &FormGame::FormGame_KeyUp);
@@ -78,7 +82,7 @@ namespace ZionEscape {
 #pragma endregion
 	Void clock_Tick(Object^ sender, EventArgs^ e) {
 		//Clock para mostrar imagenes y movimientos
-		if (Resume == false) { 
+		if (isResumed == false) { 
 			game->ShowGame(bf->Graphics);
 			game->MoveEntities(bf->Graphics);
 		}
@@ -96,10 +100,13 @@ namespace ZionEscape {
 		//Este clock sirve para que las animaciones no vayan tan rapido
 		game->AnimateEntities();
 	}
-	private: System::Void FormGame_Load(Object^ sender, EventArgs^ e) {
-		if (Resume == false) { game->Start(); }
-		if (Resume == true) { game->Resume(); }
+	private: Void FormGame_Load(Object^ sender, EventArgs^ e) {
+		if (isResumed == false) { game->Start(); }
+		if (isResumed == true) { game->Resume(); }
 	}
 
+	private: Void FormGame_FormClosed(Object^ sender, FormClosedEventArgs^ e) {
+		formMenu->Close();
+	}
 	};
 }

@@ -32,14 +32,17 @@ public:
 	void Resume() {
 
 	}
+
 	void ShowGame(Graphics^g) {
 		oMap->PaintMatriz(g);
 		player->ShowSprite(g);
+		assassin->ShowSprite(g);
 	}
 
 	void MoveEntities(Graphics^ g) {
 		player->MoveEntity(g);
 
+		//Mover enemigo, los3 son necesarios!
 		assassin->SetTargetPosition();
 		assassin->HandleMovement();
 		assassin->MoveEntity(g);

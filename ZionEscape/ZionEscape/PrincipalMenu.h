@@ -9,25 +9,15 @@ namespace ZionEscape {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	/// <summary>
-	/// Resumen de PrincipalMenu
-	/// </summary>
 	public ref class PrincipalMenu : public System::Windows::Forms::Form
 	{
-		bool resume = false;
 	public:
 		PrincipalMenu(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: agregar código de constructor aquí
-			//
 		}
 
 	protected:
-		/// <summary>
-		/// Limpiar los recursos que se estén usando.
-		/// </summary>
 		~PrincipalMenu()
 		{
 			if (components)
@@ -46,16 +36,9 @@ namespace ZionEscape {
 
 
 	private:
-		/// <summary>
-		/// Variable del diseñador necesaria.
-		/// </summary>
 		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Método necesario para admitir el Diseñador. No se puede modificar
-		/// el contenido de este método con el editor de código.
-		/// </summary>
 		void InitializeComponent(void)
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(PrincipalMenu::typeid));
@@ -71,9 +54,10 @@ namespace ZionEscape {
 			// pictureBox1
 			// 
 			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
-			this->pictureBox1->Location = System::Drawing::Point(-6, -6);
+			this->pictureBox1->Location = System::Drawing::Point(-4, -5);
+			this->pictureBox1->Margin = System::Windows::Forms::Padding(2);
 			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(668, 516);
+			this->pictureBox1->Size = System::Drawing::Size(501, 419);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::CenterImage;
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
@@ -85,9 +69,10 @@ namespace ZionEscape {
 			this->btnStart->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->btnStart->Font = (gcnew System::Drawing::Font(L"Georgia", 13.97015F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnStart->Location = System::Drawing::Point(208, 230);
+			this->btnStart->Location = System::Drawing::Point(156, 187);
+			this->btnStart->Margin = System::Windows::Forms::Padding(2);
 			this->btnStart->Name = L"btnStart";
-			this->btnStart->Size = System::Drawing::Size(267, 50);
+			this->btnStart->Size = System::Drawing::Size(200, 41);
 			this->btnStart->TabIndex = 2;
 			this->btnStart->Text = L"Start";
 			this->btnStart->UseVisualStyleBackColor = false;
@@ -100,9 +85,10 @@ namespace ZionEscape {
 			this->btnReanudar->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->btnReanudar->Font = (gcnew System::Drawing::Font(L"Georgia", 13.97015F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnReanudar->Location = System::Drawing::Point(208, 323);
+			this->btnReanudar->Location = System::Drawing::Point(156, 262);
+			this->btnReanudar->Margin = System::Windows::Forms::Padding(2);
 			this->btnReanudar->Name = L"btnReanudar";
-			this->btnReanudar->Size = System::Drawing::Size(267, 50);
+			this->btnReanudar->Size = System::Drawing::Size(200, 41);
 			this->btnReanudar->TabIndex = 3;
 			this->btnReanudar->Text = L"Resume";
 			this->btnReanudar->UseVisualStyleBackColor = false;
@@ -116,9 +102,10 @@ namespace ZionEscape {
 			this->btnExit->Font = (gcnew System::Drawing::Font(L"Georgia", 13.97015F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnExit->ForeColor = System::Drawing::Color::Black;
-			this->btnExit->Location = System::Drawing::Point(208, 413);
+			this->btnExit->Location = System::Drawing::Point(156, 336);
+			this->btnExit->Margin = System::Windows::Forms::Padding(2);
 			this->btnExit->Name = L"btnExit";
-			this->btnExit->Size = System::Drawing::Size(267, 50);
+			this->btnExit->Size = System::Drawing::Size(200, 41);
 			this->btnExit->TabIndex = 5;
 			this->btnExit->Text = L"Exit";
 			this->btnExit->UseVisualStyleBackColor = false;
@@ -127,7 +114,8 @@ namespace ZionEscape {
 			// pictureBox2
 			// 
 			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
-			this->pictureBox2->Location = System::Drawing::Point(30, 35);
+			this->pictureBox2->Location = System::Drawing::Point(22, 28);
+			this->pictureBox2->Margin = System::Windows::Forms::Padding(2);
 			this->pictureBox2->Name = L"pictureBox2";
 			this->pictureBox2->Size = System::Drawing::Size(445, 133);
 			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
@@ -136,16 +124,19 @@ namespace ZionEscape {
 			// 
 			// PrincipalMenu
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(659, 508);
+			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
+			this->ClientSize = System::Drawing::Size(494, 413);
 			this->Controls->Add(this->pictureBox2);
 			this->Controls->Add(this->btnExit);
 			this->Controls->Add(this->btnReanudar);
 			this->Controls->Add(this->btnStart);
 			this->Controls->Add(this->pictureBox1);
+			this->Margin = System::Windows::Forms::Padding(2);
+			this->MaximizeBox = false;
 			this->Name = L"PrincipalMenu";
-			this->Text = L"PrincipalMenu";
+			this->Text = L"ZionEscape";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
 			this->ResumeLayout(false);
@@ -154,19 +145,17 @@ namespace ZionEscape {
 		}
 
 #pragma endregion
-private: System::Void btnStart_Click(System::Object^ sender, System::EventArgs^ e) {
-	resume = false;
-	FormGame^ form = gcnew FormGame(resume);
+private: Void btnStart_Click(Object^ sender, EventArgs^ e) {
+	FormGame^ form = gcnew FormGame(this, false);
 	this->Visible = false;
 	form->Show();
 }
-	private: System::Void btnReanudar_Click(System::Object^ sender, System::EventArgs^ e) {
-	resume = true;
-	FormGame^ form = gcnew FormGame(resume);
+	private: Void btnReanudar_Click(Object^ sender, System::EventArgs^ e) {
+	FormGame^ form = gcnew FormGame(this, true);
 	this->Visible = false;
 	form->Show();
 }
-private: System::Void btnExit_Click(System::Object^ sender, System::EventArgs^ e) {
+private: Void btnExit_Click(Object^ sender, System::EventArgs^ e) {
 	this->Close();
 }
 };
