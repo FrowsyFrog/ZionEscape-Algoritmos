@@ -7,7 +7,7 @@ ref class Assassin : public Entity
 	int currentPathIndex;
 
 public:
-	Assassin(Point pos, int life, float speed, int damage) : Entity(pos, life, speed, damage) {
+	Assassin(Point pos, int life, float speed) : Entity(pos, life, speed) {
 		//Establecer sprite jugador
 		sprite = gcnew Bitmap("Sprites\\Characters\\assassin.png");
 		//Establecer filas y columnas del sprite

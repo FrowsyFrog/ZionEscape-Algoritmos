@@ -33,10 +33,13 @@ public:
 		oMap = gcnew Map(15, 17);
 		pathfinding = gcnew Pathfinding(oMap);
 
-		player = gcnew Player(Point(20, 20), 5, 5, 1, oMap);
+		//Posicion - velocidad - daño
+		player = gcnew Player(Point(20, 20), 5, 5, oMap);
 
-		assassinGroup = gcnew AssassinGroup(player, pathfinding, 6, 4);
+		// Timepo de Spawn - Velocidad de Asesinos
+		assassinGroup = gcnew AssassinGroup(player, pathfinding, 4.5, 4);
 
+		//Posicion inicial de corazones - Offset
 		hearts = gcnew HeartUI(player, Point(30, 0), .65f);
 
 		Rectangle rect = Rectangle(0, 0, 150, 100);
