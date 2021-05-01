@@ -56,7 +56,7 @@ public:
 
 	}
 
-	void ResetAllowedSpawnPoints() {
+	void SetAllowedSpawnPoints() {
 		Map^ map = pathfinding->GetGrid();
 		for each (List<PathNode^> ^ lista in map->getMatriz())
 		{
@@ -69,10 +69,19 @@ public:
 		}
 	}
 
-	void ClearAllowedSpawnPoints() {
-		allowedSpawnPoints->Clear();
+	void AnimateAssassins() {
+		for each (Assassin ^ assassin in assassins)
+		{
+			assassin->AnimateEnitity();
+		}
 	}
-	void ErraseAssasins() {
+
+	void ResetAllowedSpawnPoints() {
+		allowedSpawnPoints->Clear();
+		SetAllowedSpawnPoints();
+	}
+
+	void ClearAssassins() {
 		for (unsigned currentAssassin = this->assassins->Count; currentAssassin > 0; --currentAssassin) {
 			this->assassins[currentAssassin - 1] = nullptr;
 			delete this->assassins[currentAssassin - 1];
@@ -81,23 +90,19 @@ public:
 		}
 	}
 
-	void AnimateAssassins() {
-		for each (Assassin ^ assassin in assassins)
-		{
-			assassin->AnimateEnitity();
-		}
-	}
-
 	void SetAssassinsSpeed(float value) {
 		assassinsSpeed = value;
 	}
 
-	float GetAssassinsSpeed() {
-		return assassinsSpeed;
+	void SetSpawnTimerMax(float value) {
+
+		if (value > 0) {
+			spawnTimerMax = value;
+		}
 	}
 
-	void SetSpawnTimerMax(float value) {
-		spawnTimerMax = value;
+	float GetAssassinsSpeed() {
+		return assassinsSpeed;
 	}
 
 	float GetSpawnTimerMax() {
@@ -113,7 +118,7 @@ private:
 	Point GetSpawnPos() {
 		if (allowedSpawnPoints != nullptr) {
 			int randomPoint = random->Next(0, allowedSpawnPoints->Count);
-			return Point(allowedSpawnPoints[randomPoint].X -30, allowedSpawnPoints[randomPoint].Y - 55);
+			return Point(allowedSpawnPoints[randomPoint].X -30, allowedSpawnPoints[randomPoint].Y - 48);
 		}
 		return Point(0, 0);
 	}

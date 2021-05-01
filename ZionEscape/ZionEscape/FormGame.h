@@ -18,6 +18,7 @@ namespace ZionEscape {
 		Graphics^ g;
 		BufferedGraphics^ bf;
 		bool isResumed;
+	private: System::Windows::Forms::Label^ rondaLbl;
 
 	private: System::Windows::Forms::Timer^ animatorClock;
 	public: //    void
@@ -25,7 +26,7 @@ namespace ZionEscape {
 		{
 			InitializeComponent();
 			formMenu = form;
-			game = gcnew GameController();
+			game = gcnew GameController(rondaLbl);
 
 			g = this->CreateGraphics();
 			bf = BufferedGraphicsManager::Current->Allocate(g, this->ClientRectangle);
@@ -49,6 +50,7 @@ namespace ZionEscape {
 			this->components = (gcnew System::ComponentModel::Container());
 			this->clock = (gcnew System::Windows::Forms::Timer(this->components));
 			this->animatorClock = (gcnew System::Windows::Forms::Timer(this->components));
+			this->rondaLbl = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// clock
@@ -63,12 +65,23 @@ namespace ZionEscape {
 			this->animatorClock->Interval = 160;
 			this->animatorClock->Tick += gcnew System::EventHandler(this, &FormGame::animatorClock_Tick);
 			// 
+			// rondaLbl
+			// 
+			this->rondaLbl->AutoSize = true;
+			this->rondaLbl->Location = System::Drawing::Point(433, 9);
+			this->rondaLbl->Name = L"rondaLbl";
+			this->rondaLbl->Size = System::Drawing::Size(51, 13);
+			this->rondaLbl->TabIndex = 0;
+			this->rondaLbl->Text = L"Ronda: 1";
+			this->rondaLbl->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
+			// 
 			// FormGame
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
 			this->ClientSize = System::Drawing::Size(508, 448);
+			this->Controls->Add(this->rondaLbl);
 			this->MaximizeBox = false;
 			this->Name = L"FormGame";
 			this->Text = L"ZionEscape";
@@ -77,6 +90,7 @@ namespace ZionEscape {
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &FormGame::FormGame_KeyDown);
 			this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &FormGame::FormGame_KeyUp);
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
