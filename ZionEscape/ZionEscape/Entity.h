@@ -6,7 +6,6 @@ ref class Entity abstract : public Sprite
 protected:
 	int lifePoints;
 	float speed;
-
 	int dx, dy;
 
 public:
@@ -44,7 +43,7 @@ public:
 	int GetDY() {
 		return dy;
 	}
-	void SetLifePoints(int value) {
+	virtual void SetLifePoints(int value) {
 		lifePoints = value;
 	}
 	float GetSpeed() {

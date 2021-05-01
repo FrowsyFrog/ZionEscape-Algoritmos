@@ -17,6 +17,12 @@ public:
 		this->grid = grid;
 	}
 
+	~Pathfinding() {
+		grid = nullptr;
+		delete openList; openList = nullptr;
+		delete closedList; closedList = nullptr;
+	}
+
 	List<Point>^ FindPath(Point startWorldPosition, Point endWorldPosition) {
 		int startRow = 0, startCol = 0;
 		grid->GetLocNode(startWorldPosition, startRow, startCol);

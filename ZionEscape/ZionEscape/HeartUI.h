@@ -15,6 +15,11 @@ public:
 		SetPosition(Point(15, 5));
 	}
 
+	~HeartUI() {
+		delete entity;
+		entity = nullptr;
+	}
+
 	void ShowHearts(Graphics^ g) {
 
 		Point auxOffSet = Point(0,0);

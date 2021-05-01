@@ -130,6 +130,9 @@
     <ClInclude Include="Assassin.h" />
     <ClInclude Include="AssassinGroup.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="FormEnd.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="FormGame.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -151,6 +154,7 @@
     <ClCompile Include="AssassinGroup.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="FormEnd.cpp" />
     <ClCompile Include="FormGame.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="HeartUI.cpp" />
@@ -179,6 +183,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FormEnd.resx">
+      <DependentUpon>FormEnd.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormGame.resx">
       <DependentUpon>FormGame.h</DependentUpon>
     </EmbeddedResource>
