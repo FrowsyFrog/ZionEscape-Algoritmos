@@ -14,6 +14,10 @@ using namespace std;
 public ref class GameController
 {
 private:
+
+	int countRonda = 1;
+	Label^ labelRonda;
+
 	Player^ player;
 	HeartUI^ hearts;
 	AssassinGroup^ assassinGroup;
@@ -24,15 +28,14 @@ private:
 	List<PathNode^>^ path;
 
 public:
-	GameController() {
+	GameController(Label^ label): labelRonda(label) {
 
 		oMap = gcnew Map(15, 17);
 		pathfinding = gcnew Pathfinding(oMap);
 
-		player = gcnew Player(Point(20, 20), 3, 5, 1, oMap);
+		player = gcnew Player(Point(20, 20), 5, 5, 1, oMap);
 
-		assassinGroup = gcnew AssassinGroup(player, pathfinding);
-		assassinGroup->SpawnAssassin(Point(435, 340));
+		assassinGroup = gcnew AssassinGroup(player, pathfinding, 6, 4);
 
 		hearts = gcnew HeartUI(player, Point(30, 0), .65f);
 
@@ -41,8 +44,8 @@ public:
 		
 	}
 	void Start() {
-		int porcentajeLadrillo = 10;
-		oMap->generateMatriz(porcentajeLadrillo);
+		oMap->generateMatriz();
+		assassinGroup->SetAllowedSpawnPoints();
 	}
 
 	void Resume() {
@@ -52,6 +55,7 @@ public:
 	void ShowGame(Graphics^g) {
 		oMap->PaintMatriz(g);
 		player->ShowSprite(g);
+
 		assassinGroup->ActionAssasins(g);
 
 		hearts->ShowHearts(g);
@@ -94,10 +98,25 @@ public:
 		return oMap;
 	}
 	void NextLevel() {
-		if (player->GetPivotPosition() == oMap->GetNodePosition(13, 15)) {
-			oMap->generateMatriz(oMap->setPorcentajeLadrillo(5));
-			assassinGroup->ErraseAssasins();
+		int row, col;
+		oMap->GetLocNode(player->GetPivotPosition(), row, col);
+		if (Point(row, col) == Point(13, 15)) {
+
+			labelRonda->Text = "Ronda: " + ++countRonda;
+
+
+			oMap->ClearMatriz();
+			oMap->setPorcentajeLadrillo(oMap->getPorcentajeLadrillo() + 5);
+			oMap->generateMatriz();
+
+			assassinGroup->ClearAssassins();
+			assassinGroup->SetAssassinsSpeed(assassinGroup->GetAssassinsSpeed() + 0.1f);
+			assassinGroup->SetSpawnTimerMax(assassinGroup->GetSpawnTimerMax() - 0.2f);
+			assassinGroup->ResetAllowedSpawnPoints();
+
+
 			player->SetPosition(Point(20, 20));
+			player->SetLifePoints(player->GetLifePoints() + 1);
 		}
 	}
 };
