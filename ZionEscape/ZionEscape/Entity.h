@@ -6,13 +6,12 @@ ref class Entity abstract : public Sprite
 protected:
 	int lifePoints;
 	float speed;
-	int damagePoints;
 
 	int dx, dy;
 
 public:
-	Entity(Point pos, int life, float speed, int damage): 
-		lifePoints(life), speed(speed), damagePoints(damage){
+	Entity(Point pos, int life, float speed): 
+		lifePoints(life), speed(speed){
 		//Establecer posicion de la Entidad
 		position = pos;
 	}
@@ -54,10 +53,6 @@ public:
 	int GetLifePoints() {
 		return lifePoints;
 	}
-	int GetDamagePoints() {
-		return damagePoints;
-	}
-
 
 	Point GetPivotPosition() {
 		return Point(position.X + 30, position.Y + 55);

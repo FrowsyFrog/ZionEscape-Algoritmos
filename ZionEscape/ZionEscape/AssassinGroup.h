@@ -36,7 +36,7 @@ public:
 
 			if (CollisionAssassin(assassins[currentAssassin-1])) {
 				//Sub lifepoint entity
-				targetEntity->SetLifePoints(targetEntity->GetLifePoints() - assassins[currentAssassin - 1]->GetDamagePoints());
+				targetEntity->SetLifePoints(targetEntity->GetLifePoints() - 1);
 				//Delete ptr
 				this->assassins[currentAssassin-1] = nullptr;
 				delete this->assassins[currentAssassin-1];
@@ -49,7 +49,7 @@ public:
 	void SpawnAssassin() {
 
 		if (spawnTimer <= 0) {
-			assassins->Add(gcnew Assassin(GetSpawnPos(), 1, assassinsSpeed, 1));
+			assassins->Add(gcnew Assassin(GetSpawnPos(), 1, assassinsSpeed));
 			spawnTimer = spawnTimerMax;
 		}
 		spawnTimer -= 0.033;
@@ -111,7 +111,10 @@ public:
 
 private:
 	bool CollisionAssassin(Assassin^ assassin) {
-		if (assassin->GetDrawingArea().IntersectsWith(targetEntity->GetDrawingArea())) return true;
+		int rowAssassin, colAssassin; pathfinding->GetGrid()->GetLocNode(assassin->GetPivotPosition(), rowAssassin, colAssassin);
+		int rowTarget, colTarget; pathfinding->GetGrid()->GetLocNode(targetEntity->GetPivotPosition(), rowTarget, colTarget);
+
+		if (Point(rowAssassin, colAssassin) == Point(rowTarget, colTarget)) return true;
 		return false;
 	}
 

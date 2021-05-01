@@ -8,7 +8,7 @@ ref class Player : public Entity
 	Map^ oMap;
 public:
 	
-	Player(Point pos, int life, float speed, int damage, Map^ map): Entity(pos, life, speed, damage) {
+	Player(Point pos, int life, float speed, Map^ map): Entity(pos, life, speed) {
 		//Establecer sprite jugador
 		sprite = gcnew Bitmap("Sprites\\Characters\\player.png");
 		oMap = map;
