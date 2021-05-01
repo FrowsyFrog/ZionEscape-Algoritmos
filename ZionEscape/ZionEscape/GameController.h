@@ -29,7 +29,7 @@ public:
 		oMap = gcnew Map(15, 17);
 		pathfinding = gcnew Pathfinding(oMap);
 
-		player = gcnew Player(Point(20, 20), 3, 5, 1);
+		player = gcnew Player(Point(20, 20), 3, 5, 1, oMap);
 
 		assassinGroup = gcnew AssassinGroup(player, pathfinding);
 		assassinGroup->SpawnAssassin(Point(435, 340));
@@ -43,7 +43,6 @@ public:
 	void Start() {
 		int porcentajeLadrillo = 10;
 		oMap->generateMatriz(porcentajeLadrillo);
-		player->oMap = oMap;
 	}
 
 	void Resume() {
@@ -69,8 +68,6 @@ public:
 
 	void PlayerMovement(bool isPressed, Keys keyPressed) {
 
-		int _x = player->GetPivotPosition().X;
-		int _y = player->GetPivotPosition().Y;
 		switch (keyPressed)
 		{
 		case Keys::Up:
