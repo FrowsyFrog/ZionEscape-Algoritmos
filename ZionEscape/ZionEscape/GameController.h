@@ -4,8 +4,11 @@
 #include "Pathfinding.h"
 #include "HeartUI.h";
 #include <iostream>
-
-
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <cstdlib>
+#include <vector>
 using namespace System::Drawing;
 using namespace System::Windows::Forms;
 using namespace System::Collections::Generic;
@@ -51,8 +54,53 @@ public:
 		assassinGroup->SetAllowedSpawnPoints();
 	}
 
-	void Resume() {
+	void Save() {
+		fstream save("LastGame.txt", ios::out); //donde se guardara la partida
+		for (int i = 0; i < 15; ++i) { //guardar la matriz
+			for (int j = 0; j < 17; ++j) {
+				save << oMap->getNode(i, j)->value << " ";
+			}
+			save << endl;
+		}
+		save << player->GetPosition().X << " " << player->GetPosition().Y << endl; //guardar posicion del jugador en x,y;
+		save << player->GetLifePoints() << endl; // guardar cantidad de vidas
 
+	}
+
+	void Resume() {
+		fstream resume("LastGame.txt", ios::in); //partida a cargar
+		int** matriz;
+		matriz = new int* [15];
+		for (int i = 0; i < 15; ++i) {
+			matriz[i] = new int[17];
+		}
+		// Leer el archivo
+		string str;
+		short i = 0;
+		short j = 0;	
+		while (getline(resume, str)) {
+			if (i < 15) {
+				string n;
+				stringstream am(str);
+				while (getline(am, n, ' ')) {
+					int num = atoi(n.c_str());
+					matriz[i][j] = num;
+					++j;
+				}
+			}
+			else if (i == 15) {
+
+			}
+			j = 0;
+			++i;
+		}
+		//para ver si se lee y guarda
+		for (int i = 0; i < 15; ++i) { //leer matriz
+			for (int j = 0; j < 17; ++j) {
+				cout << matriz[i][j] << " ";
+			}
+			cout << endl;
+		}
 	}
 
 	void ShowGame(Graphics^g) {
@@ -92,6 +140,9 @@ public:
 		case Keys::Right:
 				player->SetDX(player->GetSpeed() * isPressed);
 				if (isPressed)player->SetSpriteDirection(SpriteDirections::right);
+			break;
+		case Keys::Escape:
+				Save();
 			break;
 		}
 	}

@@ -54,10 +54,10 @@ namespace ZionEscape {
 			// pictureBox1
 			// 
 			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
-			this->pictureBox1->Location = System::Drawing::Point(-4, -5);
-			this->pictureBox1->Margin = System::Windows::Forms::Padding(2);
+			this->pictureBox1->Location = System::Drawing::Point(-5, -6);
+			this->pictureBox1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(501, 419);
+			this->pictureBox1->Size = System::Drawing::Size(668, 516);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::CenterImage;
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
@@ -69,10 +69,10 @@ namespace ZionEscape {
 			this->btnStart->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->btnStart->Font = (gcnew System::Drawing::Font(L"Georgia", 13.97015F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnStart->Location = System::Drawing::Point(156, 187);
-			this->btnStart->Margin = System::Windows::Forms::Padding(2);
+			this->btnStart->Location = System::Drawing::Point(208, 230);
+			this->btnStart->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btnStart->Name = L"btnStart";
-			this->btnStart->Size = System::Drawing::Size(200, 41);
+			this->btnStart->Size = System::Drawing::Size(267, 50);
 			this->btnStart->TabIndex = 2;
 			this->btnStart->Text = L"Start";
 			this->btnStart->UseVisualStyleBackColor = false;
@@ -85,10 +85,10 @@ namespace ZionEscape {
 			this->btnReanudar->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->btnReanudar->Font = (gcnew System::Drawing::Font(L"Georgia", 13.97015F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnReanudar->Location = System::Drawing::Point(156, 262);
-			this->btnReanudar->Margin = System::Windows::Forms::Padding(2);
+			this->btnReanudar->Location = System::Drawing::Point(208, 322);
+			this->btnReanudar->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btnReanudar->Name = L"btnReanudar";
-			this->btnReanudar->Size = System::Drawing::Size(200, 41);
+			this->btnReanudar->Size = System::Drawing::Size(267, 50);
 			this->btnReanudar->TabIndex = 3;
 			this->btnReanudar->Text = L"Resume";
 			this->btnReanudar->UseVisualStyleBackColor = false;
@@ -102,10 +102,10 @@ namespace ZionEscape {
 			this->btnExit->Font = (gcnew System::Drawing::Font(L"Georgia", 13.97015F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnExit->ForeColor = System::Drawing::Color::Black;
-			this->btnExit->Location = System::Drawing::Point(156, 336);
-			this->btnExit->Margin = System::Windows::Forms::Padding(2);
+			this->btnExit->Location = System::Drawing::Point(208, 414);
+			this->btnExit->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btnExit->Name = L"btnExit";
-			this->btnExit->Size = System::Drawing::Size(200, 41);
+			this->btnExit->Size = System::Drawing::Size(267, 50);
 			this->btnExit->TabIndex = 5;
 			this->btnExit->Text = L"Exit";
 			this->btnExit->UseVisualStyleBackColor = false;
@@ -114,8 +114,8 @@ namespace ZionEscape {
 			// pictureBox2
 			// 
 			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
-			this->pictureBox2->Location = System::Drawing::Point(22, 28);
-			this->pictureBox2->Margin = System::Windows::Forms::Padding(2);
+			this->pictureBox2->Location = System::Drawing::Point(29, 34);
+			this->pictureBox2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->pictureBox2->Name = L"pictureBox2";
 			this->pictureBox2->Size = System::Drawing::Size(445, 133);
 			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
@@ -124,19 +124,20 @@ namespace ZionEscape {
 			// 
 			// PrincipalMenu
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
-			this->ClientSize = System::Drawing::Size(494, 413);
+			this->ClientSize = System::Drawing::Size(659, 508);
 			this->Controls->Add(this->pictureBox2);
 			this->Controls->Add(this->btnExit);
 			this->Controls->Add(this->btnReanudar);
 			this->Controls->Add(this->btnStart);
 			this->Controls->Add(this->pictureBox1);
-			this->Margin = System::Windows::Forms::Padding(2);
+			this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->MaximizeBox = false;
 			this->Name = L"PrincipalMenu";
 			this->Text = L"ZionEscape";
+			this->Load += gcnew System::EventHandler(this, &PrincipalMenu::PrincipalMenu_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
 			this->ResumeLayout(false);
@@ -157,6 +158,8 @@ private: Void btnStart_Click(Object^ sender, EventArgs^ e) {
 }
 private: Void btnExit_Click(Object^ sender, System::EventArgs^ e) {
 	this->Close();
+}
+private: System::Void PrincipalMenu_Load(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }
