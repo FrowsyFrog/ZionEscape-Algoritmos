@@ -15,6 +15,11 @@ public:
 
 	PathNode(int r, int c) : row(r), col(c) {}
 
+	~PathNode() {
+		delete cameFromNode;
+		cameFromNode = nullptr;
+	}
+
 	void CalculateFCost() {
 		fCost = gCost + hCost;
 	}

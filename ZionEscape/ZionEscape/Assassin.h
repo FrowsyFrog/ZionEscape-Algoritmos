@@ -15,6 +15,12 @@ public:
 		SetFrameSize();
 	}
 
+	~Assassin() {
+		pathPointList->Clear();
+		delete pathPointList;
+		pathPointList = nullptr;
+	}
+
 	void SetTargetPosition(Point targetPos, Pathfinding^ pathfinding) {
 		currentPathIndex = 0;
 		Point targetPosition(targetPos.X, targetPos.Y);
