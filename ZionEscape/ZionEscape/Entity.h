@@ -38,6 +38,13 @@ public:
 	void SetDY(int value) {
 		dy = value;
 	}
+	int GetDX()
+	{
+		return dx;
+	}
+	int GetDY() {
+		return dy;
+	}
 	void SetLifePoints(int value) {
 		lifePoints = value;
 	}
