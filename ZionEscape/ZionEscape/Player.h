@@ -2,10 +2,10 @@
 #include "Entity.h"
 #include "Map.h"
 
-
 ref class Player : public Entity
 {
 	Map^ oMap;
+
 public:
 	
 	Player(Point pos, int life, float speed, Map^ map): Entity(pos, life, speed) {
@@ -15,6 +15,10 @@ public:
 		//Establecer filas y columnas del sprite
 		SetColumnsRows(4, 4);
 		SetFrameSize();
+	}
+
+	~Player() {
+		oMap = nullptr;
 	}
 	void MoveEntity(Graphics^ g)override {
 
@@ -30,6 +34,16 @@ public:
 		oMap->GetLocNode(Point(_x, _y), row, col);
 		if (oMap->getNode(row, col)->value != 0) return false;
 		return true;
+	}
+
+	void SetLifePoints(int value) override {
+		if (value > 0) {
+			lifePoints = value;
+		}
+		else {
+			//PERDISTE!
+			lifePoints = 0;
+		}
 	}
 };
 

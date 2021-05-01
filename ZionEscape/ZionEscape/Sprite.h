@@ -26,6 +26,11 @@ protected:
 public:
 	Sprite(): IDx(0), spriteDirection(SpriteDirections::down){}
 
+	~Sprite() {
+		delete sprite;
+		sprite = nullptr;
+	}
+
 	virtual void ShowSprite(Graphics^ g) {
 		g->DrawImage(sprite, GetDrawingArea(), GetCropArea(), GraphicsUnit::Pixel);
 	}

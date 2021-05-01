@@ -29,6 +29,21 @@ public:
 		bmpDestroy = gcnew Bitmap("Sprites\\MapBlocks\\bmpDestruible.png");
 	}
 
+	~Map() {
+		for each (List<PathNode^>^ lista in matriz)
+		{
+			lista->Clear();
+			delete lista;
+			lista = nullptr;
+		}
+		matriz->Clear();
+		delete matriz; matriz = nullptr;
+
+		delete bmpBase; bmpBase = nullptr;
+		delete bmpSolid; bmpSolid = nullptr;
+		delete bmpDestroy; bmpDestroy = nullptr;
+	}
+
 	void generateMatriz() {
 		srand(time(NULL()));
 		for (int i = 0; i < rows; ++i) {

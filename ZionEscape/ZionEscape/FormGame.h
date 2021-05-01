@@ -1,5 +1,6 @@
 #pragma once
 #include "GameController.h"
+#include "FormEnd.h"
 #include <iostream>
 namespace ZionEscape {
 	using namespace std;
@@ -14,24 +15,30 @@ namespace ZionEscape {
 	public ref class FormGame : public System::Windows::Forms::Form
 	{
 		Form^ formMenu;
+		FormEnd^ formEnd;
 		GameController^ game;
 		Graphics^ g;
 		BufferedGraphics^ bf;
 		bool isResumed;
+
 	private: System::Windows::Forms::Label^ rondaLbl;
 
 	private: System::Windows::Forms::Timer^ animatorClock;
 	public: //    void
-		FormGame(Form^ form, bool resume)
+		FormGame(Form^ form, bool resume): formMenu(form), isResumed(resume)
 		{
 			InitializeComponent();
-			formMenu = form;
+			formEnd = gcnew FormEnd(formMenu);
 			game = gcnew GameController(rondaLbl);
-
 			g = this->CreateGraphics();
 			bf = BufferedGraphicsManager::Current->Allocate(g, this->ClientRectangle);
-			isResumed = resume;
 		}
+
+		void RestartGame() {
+			game->SetDatosLevel(true);
+			isResumed = false;
+		}
+
 	protected:
 		~FormGame()
 		{
@@ -39,6 +46,8 @@ namespace ZionEscape {
 			{
 				delete components;
 			}
+			delete game; game = nullptr;
+			delete formEnd; formEnd = nullptr;
 		}
 	private: System::Windows::Forms::Timer^ clock;
 	protected:
@@ -96,12 +105,21 @@ namespace ZionEscape {
 #pragma endregion
 	Void clock_Tick(Object^ sender, EventArgs^ e) {
 		//Clock para mostrar imagenes y movimientos
-		if (isResumed == false) { 
+		if (!isResumed) { 
 			game->NextLevel();
 			game->ShowGame(bf->Graphics);
 			game->MoveEntities(bf->Graphics);
+
+			bf->Render(g);
+
+			if (!game->isPlayerWithLife()) {
+				this->Hide();
+				formEnd->Show();
+				formEnd->SetRondas(game->GetRondas());
+				isResumed = true;
+			}
 		}
-		bf->Render(g);
+		
 	}
 	private: Void FormGame_KeyDown(Object^ sender, KeyEventArgs^ e) {
 		game->PlayerMovement(true, e->KeyCode);

@@ -5,7 +5,6 @@
 #include "HeartUI.h";
 #include <iostream>
 
-
 using namespace System::Drawing;
 using namespace System::Windows::Forms;
 using namespace System::Collections::Generic;
@@ -33,7 +32,7 @@ public:
 		oMap = gcnew Map(15, 17);
 		pathfinding = gcnew Pathfinding(oMap);
 
-		//Posicion - velocidad - daño
+		//Posicion - vida - velocidad
 		player = gcnew Player(Point(20, 20), 5, 5, oMap);
 
 		// Timepo de Spawn - Velocidad de Asesinos
@@ -44,8 +43,16 @@ public:
 
 		Rectangle rect = Rectangle(0, 0, 150, 100);
 		
-		
 	}
+
+	~GameController() {
+		delete oMap; oMap = nullptr;
+		delete pathfinding; pathfinding = nullptr;
+		delete player; player = nullptr;
+		delete assassinGroup; assassinGroup = nullptr;
+		delete hearts; hearts = nullptr;
+	}
+
 	void Start() {
 		oMap->generateMatriz();
 		assassinGroup->SetAllowedSpawnPoints();
@@ -96,31 +103,54 @@ public:
 		}
 	}
 
+	bool isPlayerWithLife() {
+		return player->GetLifePoints() > 0;
+	}
 
 	Map^ GetMap() {
 		return oMap;
 	}
+
 	void NextLevel() {
 		int row, col;
 		oMap->GetLocNode(player->GetPivotPosition(), row, col);
 		if (Point(row, col) == Point(13, 15)) {
 
-			labelRonda->Text = "Ronda: " + ++countRonda;
+			SetDatosLevel(false);
+		}
+	}
 
+	void SetDatosLevel(bool defaultValues) {
 
-			oMap->ClearMatriz();
+		if (defaultValues) {
+			player->SetLifePoints(5);
+			player->SetDX(0); player->SetDY(0);
+
+			oMap->setPorcentajeLadrillo(5);
+			assassinGroup->SetAssassinsSpeed(4);
+			assassinGroup->SetSpawnTimerMax(4.5f);
+
+			labelRonda->Text = "Round: " + 1;
+		}
+		else {
 			oMap->setPorcentajeLadrillo(oMap->getPorcentajeLadrillo() + 5);
-			oMap->generateMatriz();
-
-			assassinGroup->ClearAssassins();
 			assassinGroup->SetAssassinsSpeed(assassinGroup->GetAssassinsSpeed() + 0.1f);
 			assassinGroup->SetSpawnTimerMax(assassinGroup->GetSpawnTimerMax() - 0.2f);
-			assassinGroup->ResetAllowedSpawnPoints();
 
-
-			player->SetPosition(Point(20, 20));
-			player->SetLifePoints(player->GetLifePoints() + 1);
+			labelRonda->Text = "Round: " + ++countRonda;
 		}
+
+		player->SetPosition(Point(20, 20));
+
+		oMap->ClearMatriz();
+		oMap->generateMatriz();
+
+		assassinGroup->ClearAssassins();
+		assassinGroup->ResetAllowedSpawnPoints();
+	}
+
+	int GetRondas() {
+		return countRonda;
 	}
 };
 

@@ -24,6 +24,14 @@ public:
 		spawnTimer = spawnTimerMax = timer;
 	}
 
+	~AssassinGroup() {
+		assassins->Clear(); delete assassins; assassins = nullptr;
+		delete targetEntity; targetEntity = nullptr;
+		delete pathfinding; pathfinding = nullptr;
+		allowedSpawnPoints->Clear(); delete allowedSpawnPoints; allowedSpawnPoints = nullptr;
+		delete random; random = nullptr;
+	}
+
 	void ActionAssasins(Graphics^ g) {
 
 		SpawnAssassin();
@@ -38,8 +46,8 @@ public:
 				//Sub lifepoint entity
 				targetEntity->SetLifePoints(targetEntity->GetLifePoints() - 1);
 				//Delete ptr
+				delete this->assassins[currentAssassin - 1];
 				this->assassins[currentAssassin-1] = nullptr;
-				delete this->assassins[currentAssassin-1];
 				//Delete from the list
 				assassins->Remove(assassins[currentAssassin-1]);
 			}
