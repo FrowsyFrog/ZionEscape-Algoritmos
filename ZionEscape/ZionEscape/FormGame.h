@@ -135,7 +135,7 @@ namespace ZionEscape {
 	}
 	private: Void FormGame_Load(Object^ sender, EventArgs^ e) {
 		if (isResumed == false) { game->Start(); }
-		if (isResumed == true) { game->Resume(); }
+		if (isResumed == true) { game->Resume(); isResumed = false; }
 	}
 
 	private: Void FormGame_FormClosed(Object^ sender, FormClosedEventArgs^ e) {

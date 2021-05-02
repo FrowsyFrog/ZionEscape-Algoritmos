@@ -91,7 +91,7 @@ public:
 	PathNode^ getNode(int row, int col) {
 		return matriz[row][col];
 	}
-	
+
 	int getRows() {
 		return rows;
 	}
