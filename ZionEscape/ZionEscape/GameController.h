@@ -21,16 +21,16 @@ private:
 	HeartUI^ hearts;
 	AssassinGroup^ assassinGroup;
 
-	Map^ oMap;
-	Pathfinding^ pathfinding;
+	Map<int>^ oMap;
+	Pathfinding<int>^ pathfinding;
 	
-	List<PathNode^>^ path;
+	List<PathNode<int>^>^ path;
 
 public:
 	GameController(Label^ label): labelRonda(label) {
 
-		oMap = gcnew Map(15, 17);
-		pathfinding = gcnew Pathfinding(oMap);
+		oMap = gcnew Map<int>(15, 17);
+		pathfinding = gcnew Pathfinding<int>(oMap);
 
 		//Posicion - vida - velocidad
 		player = gcnew Player(Point(20, 20), 5, 5, oMap);
@@ -107,7 +107,7 @@ public:
 		return player->GetLifePoints() > 0;
 	}
 
-	Map^ GetMap() {
+	Map<int>^ GetMap() {
 		return oMap;
 	}
 

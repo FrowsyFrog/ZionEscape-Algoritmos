@@ -21,7 +21,7 @@ public:
 		pathPointList = nullptr;
 	}
 
-	void SetTargetPosition(Point targetPos, Pathfinding^ pathfinding) {
+	void SetTargetPosition(Point targetPos, Pathfinding<int>^ pathfinding) {
 		currentPathIndex = 0;
 		Point targetPosition(targetPos.X, targetPos.Y);
 		

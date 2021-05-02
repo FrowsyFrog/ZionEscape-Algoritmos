@@ -6,14 +6,15 @@
 #define MOVER_DIAGONAL_COST 42
 using namespace System;
 
+template <class T>
 ref class Pathfinding
 {
-	Map^ grid;
-	List<PathNode^>^ openList;
-	List<PathNode^>^ closedList;
+	Map<T>^ grid;
+	List<PathNode<T>^>^ openList;
+	List<PathNode<T>^>^ closedList;
 	
 public:
-	Pathfinding(Map^ grid) {
+	Pathfinding(Map<T>^ grid) {
 		this->grid = grid;
 	}
 
@@ -29,13 +30,13 @@ public:
 		int endRow = 0, endCol = 0;
 		grid->GetLocNode(endWorldPosition, endRow, endCol);
 
-		List<PathNode^>^ path = FindPath(startRow, startCol, endRow, endCol);
+		List<PathNode<T>^>^ path = FindPath(startRow, startCol, endRow, endCol);
 		if (path == nullptr) {
 			return nullptr;
 		}
 		else {
 			List<Point>^ pointPath = gcnew List<Point>();
-			for each (PathNode^ pathnode in path)
+			for each (PathNode<T>^ pathnode in path)
 			{
 				pointPath->Add(Point(pathnode->col * grid->GetCellSize() + (grid->GetCellSize() * .5f) ,pathnode->row * grid->GetCellSize() + (grid->GetCellSize() * .5f)));
 			}
@@ -43,16 +44,16 @@ public:
 		}
 	}
 
-	List<PathNode^>^ FindPath(int startRow, int startCol, int endRow, int endCol) {
-		PathNode^ startNode = GetNode(startRow, startCol);
-		PathNode^ endNode = GetNode(endRow, endCol);
+	List<PathNode<T>^>^ FindPath(int startRow, int startCol, int endRow, int endCol) {
+		PathNode<T>^ startNode = GetNode(startRow, startCol);
+		PathNode<T>^ endNode = GetNode(endRow, endCol);
 
-		openList = gcnew List<PathNode^>(); openList->Add(startNode);
-		closedList = gcnew List<PathNode^>();
+		openList = gcnew List<PathNode<T>^>(); openList->Add(startNode);
+		closedList = gcnew List<PathNode<T>^>();
 
 		for (int i = 0; i < grid->getRows(); i++) {
 			for (int j = 0; j < grid->getCols(); j++) {
-				PathNode^ pathNode = GetNode(i, j);
+				PathNode<T>^ pathNode = GetNode(i, j);
 				pathNode->gCost = INT_MAX;
 				pathNode->CalculateFCost();
 				pathNode->cameFromNode = nullptr;
@@ -64,7 +65,7 @@ public:
 		startNode->CalculateFCost();
 
 		while (openList->Count > 0) {
-			PathNode^ currentNode = GetLowestFCostNode(openList);
+			PathNode<T>^ currentNode = GetLowestFCostNode(openList);
 			if (currentNode == endNode) {
 				//Alcanza el último nodo
 				return CalculatePath(endNode);
@@ -73,7 +74,7 @@ public:
 			openList->Remove(currentNode);
 			closedList->Add(currentNode);
 
-			for each (PathNode ^ neighbourNode in GetNeighbourList(currentNode))
+			for each (PathNode<T> ^ neighbourNode in GetNeighbourList(currentNode))
 			{
 				if (closedList->Contains(neighbourNode)) continue;
 				else if (neighbourNode->value != 0) {
@@ -98,14 +99,14 @@ public:
 		return nullptr;
 	}
 
-	Map^ GetGrid() {
+	Map<T>^ GetGrid() {
 		return grid;
 	}
 
 private:
 
-	List<PathNode^>^ GetNeighbourList(PathNode^ currentNode) {
-		List<PathNode^>^ neighbourList = gcnew List<PathNode^>();
+	List<PathNode<T>^>^ GetNeighbourList(PathNode<T>^ currentNode) {
+		List<PathNode<T>^>^ neighbourList = gcnew List<PathNode<T>^>();
 		//Left
 		if (currentNode->col - 1 >= 0) neighbourList->Add(GetNode(currentNode->row, currentNode->col - 1));
 		//Right
@@ -118,10 +119,10 @@ private:
 		return neighbourList;
 	}
 
-	List<PathNode^>^ CalculatePath(PathNode^ endNode) {
-		List<PathNode^>^ path = gcnew List<PathNode^>();
+	List<PathNode<T>^>^ CalculatePath(PathNode<T>^ endNode) {
+		List<PathNode<T>^>^ path = gcnew List<PathNode<T>^>();
 		path->Add(endNode);
-		PathNode^ currentNode = endNode;
+		PathNode<T>^ currentNode = endNode;
 		while (currentNode->cameFromNode != nullptr) {
 			path->Add(currentNode->cameFromNode);
 			currentNode = currentNode->cameFromNode;
@@ -130,15 +131,15 @@ private:
 		return path;
 	}
 
-	int CalculateDistanceCost(PathNode^ a, PathNode^ b) {
+	int CalculateDistanceCost(PathNode<T>^ a, PathNode<T>^ b) {
 		int rowDistance = Math::Abs(a->col - b->col);
 		int colDistance = Math::Abs(a->row - b->row);
 		int remaining = Math::Abs(rowDistance - colDistance);
 		return MOVER_DIAGONAL_COST * Math::Min(rowDistance, colDistance) + MOVE_STRAIGHT_COST * remaining;
 	}
 
-	PathNode^ GetLowestFCostNode(List<PathNode^>^ pathNodeList) {
-		PathNode^ lowestFCostNode = pathNodeList[0];
+	PathNode<T>^ GetLowestFCostNode(List<PathNode<T>^>^ pathNodeList) {
+		PathNode<T>^ lowestFCostNode = pathNodeList[0];
 		for (int i = 1; i < pathNodeList->Count; ++i) {
 			if (pathNodeList[i]->fCost < lowestFCostNode->fCost) {
 				lowestFCostNode = pathNodeList[i];
@@ -147,7 +148,7 @@ private:
 		return lowestFCostNode;
 	}
 
-	PathNode^ GetNode(int row, int col) {
+	PathNode<T>^ GetNode(int row, int col) {
 		return grid->getNode(row, col);
 	}
 };

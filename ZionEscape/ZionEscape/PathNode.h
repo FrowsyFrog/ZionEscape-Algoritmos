@@ -1,12 +1,13 @@
 #pragma once
 
+template<class T>
 ref class PathNode
 {
 public:
 	int row;
 	int col;
 
-	int value;
+	T value;
 	int gCost;
 	int hCost;
 	int fCost;
@@ -23,9 +24,6 @@ public:
 	void CalculateFCost() {
 		fCost = gCost + hCost;
 	}
-
-
-
 };
 
 
