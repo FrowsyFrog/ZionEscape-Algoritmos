@@ -77,6 +77,5 @@ private:
 		else if (direction.X < 0) spriteDirection = SpriteDirections::left;
 		else if (direction.X > 0) spriteDirection = SpriteDirections::right;
 	}
-
 };
 
