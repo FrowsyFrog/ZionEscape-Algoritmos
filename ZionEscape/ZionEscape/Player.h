@@ -32,7 +32,10 @@ public:
 	{
 		int row; int col;
 		oMap->GetLocNode(Point(_x, _y), row, col);
-		if (oMap->getNode(row, col)->value != 0) return false;
+		if (oMap->getNode(row, col)->value > 1) return false;
+		else if (oMap->getNode(row, col)->value == 1) {
+			oMap->getNode(row, col)->value = 0;
+		}
 		return true;
 	}
 
