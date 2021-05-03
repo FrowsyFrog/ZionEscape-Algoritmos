@@ -2,8 +2,7 @@
 #include "Player.h"
 #include "AssassinGroup.h"
 #include "Pathfinding.h"
-#include "HeartUI.h";
-#include <iostream>
+#include "HeartUI.h"
 
 using namespace System::Drawing;
 using namespace System::Windows::Forms;
@@ -23,8 +22,6 @@ private:
 
 	Map<int>^ oMap;
 	Pathfinding<int>^ pathfinding;
-	
-	List<PathNode<int>^>^ path;
 
 public:
 	GameController(Label^ label): labelRonda(label) {
@@ -80,27 +77,12 @@ public:
 		assassinGroup->AnimateAssassins();
 	}
 
-	void PlayerMovement(bool isPressed, Keys keyPressed) {
+	void KeyDown(Keys keyPressed) {
+		player->PlayerMovement(true, keyPressed);
+	}
 
-		switch (keyPressed)
-		{
-		case Keys::Up:
-				player->SetDY(-player->GetSpeed() * isPressed);
-				if (isPressed)player->SetSpriteDirection(SpriteDirections::up);
-				break;
-		case Keys::Down:
-				player->SetDY(player->GetSpeed() * isPressed);
-				if (isPressed)player->SetSpriteDirection(SpriteDirections::down);
-			break;
-		case Keys::Left:
-				player->SetDX(-player->GetSpeed() * isPressed);
-				if (isPressed)player->SetSpriteDirection(SpriteDirections::left);
-			break;
-		case Keys::Right:
-				player->SetDX(player->GetSpeed() * isPressed);
-				if (isPressed)player->SetSpriteDirection(SpriteDirections::right);
-			break;
-		}
+	void KeyUp(Keys keyPressed) {
+		player->PlayerMovement(false, keyPressed);
 	}
 
 	bool isPlayerWithLife() {
@@ -114,10 +96,7 @@ public:
 	void NextLevel() {
 		int row, col;
 		oMap->GetLocNode(player->GetPivotPosition(), row, col);
-		if (Point(row, col) == Point(13, 15)) {
-
-			SetDatosLevel(false);
-		}
+		if(LambdaRunner::CompareRowsCols(row, col, 13, 15)) SetDatosLevel(false);
 	}
 
 	void SetDatosLevel(bool defaultValues) {

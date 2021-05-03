@@ -30,6 +30,11 @@ public:
         return getNormalizeAxisPoint();
     }
 
+    static bool CompareRowsCols(int row1, int col1, int row2, int col2) {
+        auto getPoint = [](int row, int col) {return Point(row, col); };
+        return getPoint(row1, col1) == getPoint(row2, col2);
+    }
+
 private:
     static int GetRandomNodeValue(int porcentajeLadrillo) {
         int value = rand() % 100;

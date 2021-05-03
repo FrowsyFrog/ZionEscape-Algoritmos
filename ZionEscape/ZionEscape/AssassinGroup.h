@@ -91,8 +91,8 @@ public:
 
 	void ClearAssassins() {
 		for (unsigned currentAssassin = this->assassins->Count; currentAssassin > 0; --currentAssassin) {
-			this->assassins[currentAssassin - 1] = nullptr;
 			delete this->assassins[currentAssassin - 1];
+			this->assassins[currentAssassin - 1] = nullptr;
 			//Delete from the list
 			assassins->Remove(assassins[currentAssassin - 1]);
 		}
@@ -122,8 +122,7 @@ private:
 		int rowAssassin, colAssassin; pathfinding->GetGrid()->GetLocNode(assassin->GetPivotPosition(), rowAssassin, colAssassin);
 		int rowTarget, colTarget; pathfinding->GetGrid()->GetLocNode(targetEntity->GetPivotPosition(), rowTarget, colTarget);
 
-		if (Point(rowAssassin, colAssassin) == Point(rowTarget, colTarget)) return true;
-		return false;
+		return LambdaRunner::CompareRowsCols(rowAssassin, colAssassin, rowTarget, colTarget);
 	}
 
 	Point GetSpawnPos() {
