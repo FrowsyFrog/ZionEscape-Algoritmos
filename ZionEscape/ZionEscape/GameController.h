@@ -66,6 +66,7 @@ public:
 			}
 			save << "\n";
 		}
+		save << oMap->getPorcentajeLadrillo() << "\n";
 		save << player->GetPosition().X << "," << player->GetPosition().Y << "\n"; //guardar posicion del jugador en x,y;
 		save << player->GetLifePoints() << "\n"; // guardar cantidad de vidas
 		save << assassinGroup->GetAssassinsSpeed() << "\n";
@@ -88,18 +89,20 @@ public:
 				stringstream am(stringFila);
 				if (numFila < 15) {
 					short numEspacio = 0;
-					while (getline(am, stringElemento, ' ')) { //leer la matriz
+					while (getline(am, stringElemento, ' ')) { //lee las columnas en la fila actual (17t)
 						int num = atoi(stringElemento.c_str());
 						oMap->getNode(numFila, numEspacio)->value = num;
 						++numEspacio;
 					}
+					assassinGroup->ResetAllowedSpawnPoints();
 				}
-				else if (numFila == 15) player->SetPosition(GetSavedCord(stringFila));
-				else if (numFila == 16) player->SetLifePoints(atoi(stringFila.c_str())); // leer la cantidad de vidas del jugador
-				else if (numFila == 17) assassinGroup->SetAssassinsSpeed(atoi(stringFila.c_str())); //leer la velocidad de los asesinos
-				else if (numFila == 18) assassinGroup->SetSpawnTimerMax(atoi(stringFila.c_str())); //leer cada cuanto aparecen asesinos
-				else if (numFila == 19) cantAssassins = atoi(stringFila.c_str()); //leer cantidad de asesinos
-				else if (numFila > 19 && numFila<=cantAssassins + 19) { //leer posiciones de cada asesino
+				else if (numFila == 15) oMap->setPorcentajeLadrillo(atoi(stringFila.c_str()));
+				else if (numFila == 16) player->SetPosition(GetSavedCord(stringFila));
+				else if (numFila == 17) player->SetLifePoints(atoi(stringFila.c_str())); // leer la cantidad de vidas del jugador
+				else if (numFila == 18) assassinGroup->SetAssassinsSpeed(atoi(stringFila.c_str())); //leer la velocidad de los asesinos
+				else if (numFila == 19) assassinGroup->SetSpawnTimerMax(atoi(stringFila.c_str())); //leer cada cuanto aparecen asesinos
+				else if (numFila == 20) cantAssassins = atoi(stringFila.c_str()); //leer cantidad de asesinos
+				else if (numFila > 20 && numFila<=cantAssassins + 20) { //leer posiciones de cada asesino
 					getline(am, stringElemento, '\n');
 					assassinGroup->SpawnAssassin(GetSavedCord(stringElemento));
 				}
