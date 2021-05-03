@@ -63,6 +63,12 @@ public:
 		spawnTimer -= 0.033;
 
 	}
+	void SpawnAssassin(Point punto) {
+		assassins->Add(gcnew Assassin(punto, 1, assassinsSpeed));
+	}
+	List<Assassin^>^ getAssassins() {
+		return assassins;
+	}
 
 	void SetAllowedSpawnPoints() {
 		Map<int>^ map = pathfinding->GetGrid();

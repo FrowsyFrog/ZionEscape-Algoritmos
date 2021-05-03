@@ -68,6 +68,5 @@ private:
 		float distance = Math::Sqrt(point.X * point.X + point.Y * point.Y);
 		return LambdaRunner::AssassinNormalizePoint(point.X, point.Y, distance);
 	}
-
 };
 
