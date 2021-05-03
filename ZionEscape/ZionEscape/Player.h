@@ -3,17 +3,14 @@
 #include "Map.h"
 #include <queue>
 using namespace System::Windows::Forms;
-using System::Collections::Generic::Stack;
 
 ref class Player : public Entity
 {
 	Map<int>^ oMap;
-	Stack<Keys>^ pilaKeys;
 
 public:
 	
 	Player(Point pos, int life, float speed, Map<int>^ map): Entity(pos, life, speed) {
-		pilaKeys = gcnew Stack<Keys>();
 		//Establecer sprite jugador
 		sprite = gcnew Bitmap("Sprites\\Characters\\player.png");
 		oMap = map;
@@ -31,19 +28,19 @@ public:
 		switch (keyPressed)
 		{
 		case Keys::Up:
-			SetDY(-speed * isPressed);
+			dy = -speed * isPressed;
 			if (isPressed)SetSpriteDirection(SpriteDirections::up);
 			break;
 		case Keys::Down:
-			SetDY(speed * isPressed);
+			dy = speed * isPressed;
 			if (isPressed)SetSpriteDirection(SpriteDirections::down);
 			break;
 		case Keys::Left:
-			SetDX(-speed * isPressed);
+			dx  = -speed * isPressed;
 			if (isPressed)SetSpriteDirection(SpriteDirections::left);
 			break;
 		case Keys::Right:
-			SetDX(speed * isPressed);
+			dx = speed * isPressed;
 			if (isPressed)SetSpriteDirection(SpriteDirections::right);
 			break;
 		}
@@ -53,7 +50,8 @@ public:
 
 		if (CheckCollision(GetPivotPosition().X + dx, GetPivotPosition().Y + dy))
 		{
-			position.X += dx; position.Y += dy;
+			position.X += dx; 
+			position.Y += dy;
 		}
 
 	}

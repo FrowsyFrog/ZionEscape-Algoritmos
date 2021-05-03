@@ -24,17 +24,14 @@ public:
 
 	void SetTargetPosition(Point targetPos, Pathfinding<int>^ pathfinding) {
 		currentPathIndex = 0;
-		Point targetPosition(targetPos.X, targetPos.Y);
-		
-		pathPointList = pathfinding->FindPath(GetPivotPosition(), targetPosition);
+		pathPointList = pathfinding->FindPath(GetPivotPosition(), targetPos);
 
-		if (pathPointList != nullptr && pathPointList->Count > 1) {
+		if (pathPointList != nullptr && pathPointList->Count > 1) 
 			pathPointList->RemoveAt(0);
-		}
 	}
 	
 	void HandleMovement() {
-		if (pathPointList != nullptr) {
+		if (pathPointList) {
 			Point targetPosition = pathPointList[currentPathIndex];
 			if (GetDistancePoints(targetPosition) > 1.2f) {
 				Point moveDir(targetPosition.X - GetPivotPosition().X, targetPosition.Y - GetPivotPosition().Y);
