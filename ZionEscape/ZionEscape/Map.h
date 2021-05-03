@@ -16,6 +16,7 @@ ref class Map {
 	Bitmap^ bmpBase;
 	Bitmap^ bmpSolid;
 	Bitmap^ bmpDestroy;
+	Bitmap^ crossSprite;
 
 	int rows, cols;
 	int porcentajeLadrillo = 5;
@@ -26,6 +27,7 @@ public:
 		bmpBase = gcnew Bitmap("Sprites\\MapBlocks\\bmpSuelo.png");
 		bmpSolid = gcnew Bitmap("Sprites\\MapBlocks\\bmpSolido.png");
 		bmpDestroy = gcnew Bitmap("Sprites\\MapBlocks\\bmpDestruible.png");
+		crossSprite = gcnew Bitmap("Sprites\\MapBlocks\\cross.png");
 	}
 
 	~Map() {
@@ -77,6 +79,8 @@ public:
 			}
 			Y += CELL_SIZE;
 		}
+
+		g->DrawImage(crossSprite, 450, 390, CELL_SIZE, CELL_SIZE);
 	}
 
 	List<List<PathNode<T>^>^>^ getMatriz() {

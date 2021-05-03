@@ -31,9 +31,7 @@ public:
 		grid->GetLocNode(endWorldPosition, endRow, endCol);
 
 		List<PathNode<T>^>^ path = FindPath(startRow, startCol, endRow, endCol);
-		if (path == nullptr) {
-			return nullptr;
-		}
+		if (path == nullptr) return nullptr;
 		else {
 			List<Point>^ pointPath = gcnew List<Point>();
 			for each (PathNode<T>^ pathnode in path)
@@ -89,9 +87,7 @@ public:
 					neighbourNode->hCost = CalculateDistanceCost(neighbourNode, endNode);
 					neighbourNode->CalculateFCost();
 
-					if (!openList->Contains(neighbourNode)) {
-						openList->Add(neighbourNode);
-					}
+					if (!openList->Contains(neighbourNode)) openList->Add(neighbourNode);
 				}
 			}
 		}
