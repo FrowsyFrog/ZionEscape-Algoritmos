@@ -82,7 +82,7 @@ public:
 		fstream resume("LastGame.txt", ios::in); //partida a cargar
 		Start();
 		if (resume.is_open()) {
-			int cantAssassins, numFila;
+			int cantAssassins = 0, numFila = 0;
 			string stringFila, stringElemento;
 			// Leer el archivo
 			while (getline(resume, stringFila)) {
