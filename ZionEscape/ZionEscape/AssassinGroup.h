@@ -97,8 +97,8 @@ public:
 
 	void ClearAssassins() {
 		for (unsigned currentAssassin = this->assassins->Count; currentAssassin > 0; --currentAssassin) {
-			delete this->assassins[currentAssassin - 1];
 			this->assassins[currentAssassin - 1] = nullptr;
+			delete this->assassins[currentAssassin - 1];
 			//Delete from the list
 			assassins->Remove(assassins[currentAssassin - 1]);
 		}
