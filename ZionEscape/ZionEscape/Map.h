@@ -1,18 +1,17 @@
 #pragma once
 
-#include <ctime>
-#include <stdlib.h> 
 #include "PathNode.h"
+#include "Lambda.h"
 #define CELL_SIZE 30
 using namespace System::Drawing;
 using namespace System::Runtime::InteropServices;
 using System::Collections::Generic::List;
 
 
-
+template <class T>
 ref class Map {
 	//TGridObject^^ matriz;
-	List<List<PathNode^>^>^ matriz;
+	List<List<PathNode<T>^>^>^ matriz;
 
 	Bitmap^ bmpBase;
 	Bitmap^ bmpSolid;
@@ -23,14 +22,14 @@ ref class Map {
 
 public:
 	Map(int r, int c): rows(r), cols(c) {
-		matriz = gcnew List<List<PathNode^>^>();
+		matriz = gcnew List<List<PathNode<T>^>^>();
 		bmpBase = gcnew Bitmap("Sprites\\MapBlocks\\bmpSuelo.png");
 		bmpSolid = gcnew Bitmap("Sprites\\MapBlocks\\bmpSolido.png");
 		bmpDestroy = gcnew Bitmap("Sprites\\MapBlocks\\bmpDestruible.png");
 	}
 
 	~Map() {
-		for each (List<PathNode^>^ lista in matriz)
+		for each (List<PathNode<T>^>^ lista in matriz)
 		{
 			lista->Clear();
 			delete lista;
@@ -47,20 +46,16 @@ public:
 	void generateMatriz() {
 		srand(time(NULL()));
 		for (int i = 0; i < rows; ++i) {
-			matriz->Add(gcnew List<PathNode^>());
+			matriz->Add(gcnew List<PathNode<T>^>());
 			for (int j = 0; j < cols; ++j) {
-
-				matriz[i]->Add(gcnew PathNode(i, j));
-				////       0         0
-				if ((i == 0 || j == 0 || i == rows - 1 || j == cols - 1) || (i % 2 == 0 && j % 2 == 0)) matriz[i][j]->value = 2;//Marco al rededor del mapa //Bloques fijos en el interior
-				else if ((i == 1 && (j == 1 || j == 2)) || (j == 1 && i == 2) || (i == rows - 2 && (j == cols - 3 || j == cols - 2)) || (i == rows - 3 && j == cols - 2)) matriz[i][j]->value = 0; //Bloques libres en las esquinas
-				else matriz[i][j]->value = GetRandomNodeValue(porcentajeLadrillo);
+				matriz[i]->Add(gcnew PathNode<T>(i, j));
+				matriz[i][j]->value = LambdaRunner::MatrixGetNodeValue(i,j,rows,cols,porcentajeLadrillo);
 			}
 		}
 	}
 
 	void ClearMatriz() {
-		for each (List<PathNode^>^ lista in matriz)
+		for each (List<PathNode<T>^>^ lista in matriz)
 		{
 			lista->Clear();
 		}
@@ -84,11 +79,11 @@ public:
 		}
 	}
 
-	List<List<PathNode^>^>^ getMatriz() {
+	List<List<PathNode<T>^>^>^ getMatriz() {
 		return matriz; 
 	}
 
-	PathNode^ getNode(int row, int col) {
+	PathNode<T>^ getNode(int row, int col) {
 		return matriz[row][col];
 	}
 
@@ -117,7 +112,7 @@ public:
 		porcentajeLadrillo = value; 
 	}
 
-	Point GetNodePosition(PathNode^ pathNode) {
+	Point GetNodePosition(PathNode<T>^ pathNode) {
 		return GetNodePosition(pathNode->row, pathNode->col);
 	}
 
@@ -127,12 +122,7 @@ public:
 	}
 
 private:
-	int GetRandomNodeValue(int porcentajeLadrillo) {
-		
-		int value = rand() % 100;
-		return value >= porcentajeLadrillo ? 0 : 1;
 
-	}
 };
 
 

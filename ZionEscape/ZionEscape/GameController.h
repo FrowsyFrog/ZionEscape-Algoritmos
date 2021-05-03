@@ -25,16 +25,14 @@ private:
 	HeartUI^ hearts;
 	AssassinGroup^ assassinGroup;
 
-	Map^ oMap;
-	Pathfinding^ pathfinding;
-	
-	List<PathNode^>^ path;
+	Map<int>^ oMap;
+	Pathfinding<int>^ pathfinding;
 
 public:
 	GameController(Label^ label): labelRonda(label) {
 
-		oMap = gcnew Map(15, 17);
-		pathfinding = gcnew Pathfinding(oMap);
+		oMap = gcnew Map<int>(15, 17);
+		pathfinding = gcnew Pathfinding<int>(oMap);
 
 		//Posicion - vida - velocidad
 		player = gcnew Player(Point(20, 20), 5, 5, oMap);
@@ -161,47 +159,27 @@ public:
 		assassinGroup->AnimateAssassins();
 	}
 
-	void PlayerMovement(bool isPressed, Keys keyPressed) {
+	void KeyDown(Keys keyPressed) {
+		player->PlayerMovement(true, keyPressed);
+		if(keyPressed == Keys::Escape) Save();
+	}
 
-		switch (keyPressed)
-		{
-		case Keys::Up:
-				player->SetDY(-player->GetSpeed() * isPressed);
-				if (isPressed)player->SetSpriteDirection(SpriteDirections::up);
-				break;
-		case Keys::Down:
-				player->SetDY(player->GetSpeed() * isPressed);
-				if (isPressed)player->SetSpriteDirection(SpriteDirections::down);
-			break;
-		case Keys::Left:
-				player->SetDX(-player->GetSpeed() * isPressed);
-				if (isPressed)player->SetSpriteDirection(SpriteDirections::left);
-			break;
-		case Keys::Right:
-				player->SetDX(player->GetSpeed() * isPressed);
-				if (isPressed)player->SetSpriteDirection(SpriteDirections::right);
-			break;
-		case Keys::Escape:
-				Save();
-			break;
-		}
+	void KeyUp(Keys keyPressed) {
+		player->PlayerMovement(false, keyPressed);
 	}
 
 	bool isPlayerWithLife() {
 		return player->GetLifePoints() > 0;
 	}
 
-	Map^ GetMap() {
+	Map<int>^ GetMap() {
 		return oMap;
 	}
 
 	void NextLevel() {
 		int row, col;
 		oMap->GetLocNode(player->GetPivotPosition(), row, col);
-		if (Point(row, col) == Point(13, 15)) {
-
-			SetDatosLevel(false);
-		}
+		if(LambdaRunner::CompareRowsCols(row, col, 13, 15)) SetDatosLevel(false);
 	}
 
 	void SetDatosLevel(bool defaultValues) {

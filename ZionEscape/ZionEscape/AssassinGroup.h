@@ -5,7 +5,7 @@ ref class AssassinGroup
 {
 	List<Assassin^>^ assassins;
 	Entity^ targetEntity;
-	Pathfinding^ pathfinding;
+	Pathfinding<int>^ pathfinding;
 	List<Point>^ allowedSpawnPoints;
 
 	Random^ random;
@@ -16,7 +16,7 @@ ref class AssassinGroup
 	float spawnTimer;
 	
 public:
-	AssassinGroup(Entity^ t, Pathfinding^ pf, float timer, float speed)
+	AssassinGroup(Entity^ t, Pathfinding<int>^ pf, float timer, float speed)
 		: targetEntity(t), pathfinding(pf), assassinsSpeed(speed) {
 		random = gcnew Random();
 		assassins = gcnew List<Assassin^>();
@@ -71,10 +71,10 @@ public:
 	}
 
 	void SetAllowedSpawnPoints() {
-		Map^ map = pathfinding->GetGrid();
-		for each (List<PathNode^> ^ lista in map->getMatriz())
+		Map<int>^ map = pathfinding->GetGrid();
+		for each (List<PathNode<int>^> ^ lista in map->getMatriz())
 		{
-			for each (PathNode ^ pathNode in lista)
+			for each (PathNode<int> ^ pathNode in lista)
 			{
 				if (pathNode->value == 0 && !allowedSpawnPoints->Contains(map->GetNodePosition(pathNode))) {
 					allowedSpawnPoints->Add(map->GetNodePosition(pathNode));
@@ -97,8 +97,8 @@ public:
 
 	void ClearAssassins() {
 		for (unsigned currentAssassin = this->assassins->Count; currentAssassin > 0; --currentAssassin) {
-			this->assassins[currentAssassin - 1] = nullptr;
 			delete this->assassins[currentAssassin - 1];
+			this->assassins[currentAssassin - 1] = nullptr;
 			//Delete from the list
 			assassins->Remove(assassins[currentAssassin - 1]);
 		}
@@ -128,8 +128,7 @@ private:
 		int rowAssassin, colAssassin; pathfinding->GetGrid()->GetLocNode(assassin->GetPivotPosition(), rowAssassin, colAssassin);
 		int rowTarget, colTarget; pathfinding->GetGrid()->GetLocNode(targetEntity->GetPivotPosition(), rowTarget, colTarget);
 
-		if (Point(rowAssassin, colAssassin) == Point(rowTarget, colTarget)) return true;
-		return false;
+		return LambdaRunner::CompareRowsCols(rowAssassin, colAssassin, rowTarget, colTarget);
 	}
 
 	Point GetSpawnPos() {

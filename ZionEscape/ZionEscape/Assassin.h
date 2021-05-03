@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "Pathfinding.h"
+
 ref class Assassin : public Entity
 {
 	List<Point>^  pathPointList;
@@ -21,7 +22,7 @@ public:
 		pathPointList = nullptr;
 	}
 
-	void SetTargetPosition(Point targetPos, Pathfinding^ pathfinding) {
+	void SetTargetPosition(Point targetPos, Pathfinding<int>^ pathfinding) {
 		currentPathIndex = 0;
 		Point targetPosition(targetPos.X, targetPos.Y);
 		
@@ -40,7 +41,7 @@ public:
 				moveDir = NormalizePoint(moveDir);
 
 				float distanceBefore = GetDistancePoints(targetPosition);
-				SetAssassinAnimation(moveDir);
+				spriteDirection = LambdaRunner::AssassinSpriteDirection(moveDir);
 				dx = moveDir.X * speed; dy = moveDir.Y * speed;
 			}
 			else
@@ -65,17 +66,7 @@ private:
 
 	Point NormalizePoint(Point point) {
 		float distance = Math::Sqrt(point.X * point.X + point.Y * point.Y);
-		int PointX = Math::Round(point.X / distance, MidpointRounding::AwayFromZero);
-		int PointY = Math::Round(point.Y / distance, MidpointRounding::AwayFromZero);
-
-		return Point(PointX, PointY);
-	}
-
-	void SetAssassinAnimation(Point direction) {
-		if (direction.Y > 0) spriteDirection = SpriteDirections::down;
-		else if (direction.Y < 0) spriteDirection = SpriteDirections::up;
-		else if (direction.X < 0) spriteDirection = SpriteDirections::left;
-		else if (direction.X > 0) spriteDirection = SpriteDirections::right;
+		return LambdaRunner::AssassinNormalizePoint(point.X, point.Y, distance);
 	}
 };
 

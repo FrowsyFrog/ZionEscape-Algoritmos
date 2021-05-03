@@ -122,11 +122,10 @@ namespace ZionEscape {
 		
 	}
 	private: Void FormGame_KeyDown(Object^ sender, KeyEventArgs^ e) {
-		game->PlayerMovement(true, e->KeyCode);
+		game->KeyDown(e->KeyCode);
 	}
-
 	private: Void FormGame_KeyUp(Object^ sender, KeyEventArgs^ e) {
-		game->PlayerMovement(false, e->KeyCode);
+		game->KeyUp(e->KeyCode);
 	}
 
 	private: Void animatorClock_Tick(Object^ sender, System::EventArgs^ e) {
@@ -141,5 +140,5 @@ namespace ZionEscape {
 	private: Void FormGame_FormClosed(Object^ sender, FormClosedEventArgs^ e) {
 		formMenu->Close();
 	}
-	};
+};
 }

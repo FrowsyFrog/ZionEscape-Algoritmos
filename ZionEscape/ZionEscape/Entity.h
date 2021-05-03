@@ -1,9 +1,11 @@
 #pragma once
 #include "Sprite.h"
+#include "Lambda.h"
 
 ref class Entity abstract : public Sprite
 {
 protected:
+
 	int lifePoints;
 	float speed;
 	int dx, dy;
@@ -24,10 +26,8 @@ public:
 	}
 	
 	virtual void AnimateEnitity() {
-		if (dx != 0 || dy != 0)
-			IDx = (IDx + 1) % spriteColumns;
-		else
-			IDx = 0;
+		if (dx != 0 || dy != 0) IDx = (IDx + 1) % spriteColumns;
+		else IDx = 0;
 	}
 
 	void SetDX(int value) {
@@ -56,7 +56,5 @@ public:
 	Point GetPivotPosition() {
 		return Point(position.X + 30, position.Y + 55);
 	}
-
-
 };
 
