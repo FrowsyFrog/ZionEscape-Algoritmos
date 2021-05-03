@@ -3,7 +3,6 @@
 #include "AssassinGroup.h"
 #include "Pathfinding.h"
 #include "HeartUI.h";
-#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -42,8 +41,6 @@ public:
 
 		//Posicion inicial de corazones - Offset
 		hearts = gcnew HeartUI(player, Point(30, 0), .65f);
-
-		Rectangle rect = Rectangle(0, 0, 150, 100);
 		
 	}
 
@@ -84,52 +81,33 @@ public:
 		fstream resume("LastGame.txt", ios::in); //partida a cargar
 		Start();
 		if (resume.is_open()) {
-			int cant = 0;
+			int cantAssassins, numFila;
+			string stringFila, stringElemento;
 			// Leer el archivo
-			string str;
-			short i = 0;
-			short j = 0;
-			while (getline(resume, str)) {
-				string n;
-				stringstream am(str);
-				if (i < 15) {
-					while (getline(am, n, ' ')) { //leer la matriz
-						int num = atoi(n.c_str());
-						oMap->getNode(i, j)->value = num;
-						++j;
+			while (getline(resume, stringFila)) {
+				stringstream am(stringFila);
+				if (numFila < 15) {
+					short numEspacio = 0;
+					while (getline(am, stringElemento, ' ')) { //leer la matriz
+						int num = atoi(stringElemento.c_str());
+						oMap->getNode(numFila, numEspacio)->value = num;
+						++numEspacio;
 					}
 				}
-				else if (i == 15) { // leer la posicion del jugador
-					while (getline(am, n, ',')) {
-						int num, num2;
-						if (j == 0) num = atoi(n.c_str());
-						else if (j == 1) num2 = atoi(n.c_str());
-						player->SetPosition(Point(num, num2));
-						++j;
-					}
+				else if (numFila == 15) player->SetPosition(GetSavedCord(stringFila));
+				else if (numFila == 16) player->SetLifePoints(atoi(stringFila.c_str())); // leer la cantidad de vidas del jugador
+				else if (numFila == 17) assassinGroup->SetAssassinsSpeed(atoi(stringFila.c_str())); //leer la velocidad de los asesinos
+				else if (numFila == 18) assassinGroup->SetSpawnTimerMax(atoi(stringFila.c_str())); //leer cada cuanto aparecen asesinos
+				else if (numFila == 19) cantAssassins = atoi(stringFila.c_str()); //leer cantidad de asesinos
+				else if (numFila > 19 && numFila<=cantAssassins + 19) { //leer posiciones de cada asesino
+					getline(am, stringElemento, '\n');
+					assassinGroup->SpawnAssassin(GetSavedCord(stringElemento));
 				}
-				else if (i == 16) { // leer la cantidad de vidas del jugador
-					player->SetLifePoints(atoi(str.c_str()));
-				}
-				else if (i == 17) { //leer la velocidad de los asesinos
-					assassinGroup->SetAssassinsSpeed(atoi(str.c_str()));
-				}
-				else if (i == 18) { //leer cada cuanto aparecen asesinos
-					assassinGroup->SetSpawnTimerMax(atoi(str.c_str()));
-				}
-				else if (i == 19) { //leer cantidad de asesinos
-						cant = atoi(str.c_str()); 
-				}
-				else if (i > 19 && i<=cant + 19) { //leer posiciones de cada asesino
-					getline(am, n, '\n');
-					assassinGroup->SpawnAssassin(GetSavedCord(n));
-				}
-				else if (i > cant + 19) { //leer partida en la que te quedaste
-					setRondas(atoi(str.c_str()));
+				else { //leer partida en la que te quedaste
+					setRondas(atoi(stringFila.c_str()));
 					labelRonda->Text = "Round: " + countRonda;
 				}
-				j = 0;
-				++i;
+				++numFila;
 			}
 			//para ver si se lee y guarda
 			resume.close();
@@ -139,9 +117,7 @@ public:
 	void ShowGame(Graphics^g) {
 		oMap->PaintMatriz(g);
 		player->ShowSprite(g);
-
 		assassinGroup->ActionAssasins(g);
-
 		hearts->ShowHearts(g);
 	}
 
@@ -155,8 +131,8 @@ public:
 	}
 
 	void KeyDown(Keys keyPressed) {
-		player->PlayerMovement(true, keyPressed);
-		if(keyPressed == Keys::Escape) Save();
+		if (keyPressed == Keys::Escape) Save();
+		else player->PlayerMovement(true, keyPressed);
 	}
 
 	void KeyUp(Keys keyPressed) {
