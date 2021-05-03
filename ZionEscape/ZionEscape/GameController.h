@@ -121,13 +121,8 @@ public:
 						cant = atoi(str.c_str()); 
 				}
 				else if (i > 19 && i<=cant + 19) { //leer posiciones de cada asesino
-					int num, num2;
-					while (getline(am, n, ',')) {
-						if (j == 0) num = atoi(n.c_str());
-						else if (j == 1) num2 = atoi(n.c_str());
-						++j;
-					}
-					assassinGroup->SpawnAssassin(Point(num, num2));
+					getline(am, n, '\n');
+					assassinGroup->SpawnAssassin(GetSavedCord(n));
 				}
 				else if (i > cant + 19) { //leer partida en la que te quedaste
 					setRondas(atoi(str.c_str()));
@@ -214,8 +209,18 @@ public:
 	int GetRondas() {
 		return countRonda;
 	}
+
 	void setRondas(int newRondas) {
 		countRonda = newRondas;
+	}
+
+private:
+	Point GetSavedCord(string n) {
+		string pos; stringstream strPosAss(n);
+		getline(strPosAss, pos, ','); int num = atoi(pos.c_str());
+		getline(strPosAss, pos, ','); int num2 = atoi(pos.c_str());
+
+		return Point(num, num2);
 	}
 };
 
