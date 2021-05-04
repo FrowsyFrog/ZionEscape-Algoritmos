@@ -7,7 +7,6 @@
 #include <sstream>
 #include <string>
 #include <cstdlib>
-
 using namespace System::Drawing;
 using namespace System::Windows::Forms;
 using namespace System::Collections::Generic;
@@ -19,7 +18,6 @@ private:
 
 	int countRonda = 1;
 	Label^ labelRonda;
-
 	Player^ player;
 	HeartUI^ hearts;
 	AssassinGroup^ assassinGroup;
@@ -119,10 +117,12 @@ public:
 		}
 	}
 
-	void ShowGame(Graphics^g) {
+	void ShowGame(Graphics^g) { // muestra todo
 		oMap->PaintMatriz(g);
 		player->ShowSprite(g);
-		assassinGroup->ActionAssasins(g);
+
+		assassinGroup->ActionAssasins(g); //mueve muestra, detecta si hay colision y llama al spawn (que es cada cuanto aparece un asesino)
+
 		hearts->ShowHearts(g);
 	}
 
