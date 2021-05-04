@@ -71,6 +71,7 @@ public:
 		save << player->GetLifePoints() << "\n"; // guardar cantidad de vidas
 		save << assassinGroup->GetAssassinsSpeed() << "\n";
 		save << assassinGroup->GetSpawnTimerMax() << "\n";
+		save << assassinGroup->GetSpawnTimer() << "\n";
 		save << assassinGroup->getAssassins()->Count<< "\n";
 		for (int i = 0; i < assassinGroup->getAssassins()->Count; ++i) {
 			save << assassinGroup->getAssassins()[i]->GetPosition().X << "," << assassinGroup->getAssassins()[i]->GetPosition().Y << "\n";
@@ -101,8 +102,9 @@ public:
 				else if (numFila == 17) player->SetLifePoints(atoi(stringFila.c_str())); // leer la cantidad de vidas del jugador
 				else if (numFila == 18) assassinGroup->SetAssassinsSpeed(atoi(stringFila.c_str())); //leer la velocidad de los asesinos
 				else if (numFila == 19) assassinGroup->SetSpawnTimerMax(atoi(stringFila.c_str())); //leer cada cuanto aparecen asesinos
-				else if (numFila == 20) cantAssassins = atoi(stringFila.c_str()); //leer cantidad de asesinos
-				else if (numFila > 20 && numFila<=cantAssassins + 20) { //leer posiciones de cada asesino
+				else if (numFila == 20) assassinGroup->SetSpawnTimer(atoi(stringFila.c_str())); //leer cada cuanto aparecen asesinos
+				else if (numFila == 21) cantAssassins = atoi(stringFila.c_str()); //leer cantidad de asesinos
+				else if (numFila > 21 && numFila<=cantAssassins + 21) { //leer posiciones de cada asesino
 					getline(am, stringElemento, '\n');
 					assassinGroup->SpawnAssassin(GetSavedCord(stringElemento));
 				}

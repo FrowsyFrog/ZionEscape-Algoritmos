@@ -115,12 +115,20 @@ public:
 		}
 	}
 
+	void SetSpawnTimer(float value) {
+		spawnTimer = value;
+	}
+
 	float GetAssassinsSpeed() {
 		return assassinsSpeed;
 	}
 
 	float GetSpawnTimerMax() {
 		return spawnTimerMax;
+	}
+
+	float GetSpawnTimer() {
+		return spawnTimer;
 	}
 
 private:
