@@ -81,6 +81,8 @@ public:
 
 	void Resume() {
 		fstream resume("LastGame.txt", ios::in); //partida a cargar
+		oMap->ClearMatriz();
+		assassinGroup->ClearAssassins();
 		Start();
 		if (resume.is_open()) {
 			int cantAssassins = 0, numFila = 0;
@@ -95,7 +97,6 @@ public:
 						oMap->getNode(numFila, numEspacio)->value = num;
 						++numEspacio;
 					}
-					assassinGroup->ResetAllowedSpawnPoints();
 				}
 				else if (numFila == 15) oMap->setPorcentajeLadrillo(atoi(stringFila.c_str()));
 				else if (numFila == 16) player->SetPosition(GetSavedCord(stringFila));
@@ -117,6 +118,8 @@ public:
 			//para ver si se lee y guarda
 			resume.close();
 		}
+		player->SetDX(0); player->SetDY(0);
+		assassinGroup->ResetAllowedSpawnPoints();
 	}
 
 	void ShowGame(Graphics^g) {

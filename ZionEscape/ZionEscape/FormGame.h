@@ -95,7 +95,6 @@ namespace ZionEscape {
 			this->Name = L"FormGame";
 			this->Text = L"ZionEscape";
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &FormGame::FormGame_FormClosed);
-			this->Load += gcnew System::EventHandler(this, &FormGame::FormGame_Load);
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &FormGame::FormGame_KeyDown);
 			this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &FormGame::FormGame_KeyUp);
 			this->ResumeLayout(false);
@@ -132,13 +131,18 @@ namespace ZionEscape {
 		//Este clock sirve para que las animaciones no vayan tan rapido
 		game->AnimateEntities();
 	}
-	private: Void FormGame_Load(Object^ sender, EventArgs^ e) {
-		if (isResumed == false) { game->Start(); }
-		if (isResumed == true) { game->Resume(); isResumed = false; }
-	}
 
 	private: Void FormGame_FormClosed(Object^ sender, FormClosedEventArgs^ e) {
 		formMenu->Close();
 	}
+
+	public: Void LoadGame() {
+		if(!isResumed) game->Start();
+		else {
+			game->Resume(); 
+			isResumed = false; 
+		}
+	}
+
 };
 }
