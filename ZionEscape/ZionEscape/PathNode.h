@@ -20,8 +20,8 @@ public:
 		delete cameFromNode;
 		cameFromNode = nullptr;
 	}
-
-	void CalculateFCost() {
+	//calcula costos (para saber que tanto debe recorrer entre nodos)
+	void CalculateFCost() { 
 		fCost = gCost + hCost;
 	}
 };

@@ -44,9 +44,10 @@ public:
 		delete bmpSolid; bmpSolid = nullptr;
 		delete bmpDestroy; bmpDestroy = nullptr;
 	}
-
+	//se genera la matriz en la lista 
 	void generateMatriz() {
 		srand(time(NULL()));
+		//generando nodos y agregando valores a la lista
 		for (int i = 0; i < rows; ++i) {
 			matriz->Add(gcnew List<PathNode<T>^>());
 			for (int j = 0; j < cols; ++j) {

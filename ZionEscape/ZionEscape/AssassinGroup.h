@@ -11,8 +11,9 @@ ref class AssassinGroup
 	Random^ random;
 
 	float assassinsSpeed;
-
+	//tiempo max que tarda en aparecer 1 asesino (que se mantiene el mismo hasta que cambia de nivel)
 	float spawnTimerMax;
+	//cuenta regresiva (5,4,3,2,1,0 aparece asesino luego vuelve a iniciar como spawnTimerMax y repite)
 	float spawnTimer;
 	
 public:
@@ -94,7 +95,7 @@ public:
 		allowedSpawnPoints->Clear();
 		SetAllowedSpawnPoints();
 	}
-
+	//borrar asesinos de la lista
 	void ClearAssassins() {
 		for (unsigned currentAssassin = this->assassins->Count; currentAssassin > 0; --currentAssassin) {
 			this->assassins[currentAssassin - 1] = nullptr;
@@ -132,13 +133,14 @@ public:
 	}
 
 private:
+	//calcula si el asesino colisiono o no con el jugador si lo hizo devuelve true
 	bool CollisionAssassin(Assassin^ assassin) {
 		int rowAssassin, colAssassin; pathfinding->GetGrid()->GetLocNode(assassin->GetPivotPosition(), rowAssassin, colAssassin);
 		int rowTarget, colTarget; pathfinding->GetGrid()->GetLocNode(targetEntity->GetPivotPosition(), rowTarget, colTarget);
 
 		return LambdaRunner::CompareRowsCols(rowAssassin, colAssassin, rowTarget, colTarget);
 	}
-
+	//obtener posicion en la que aparecera
 	Point GetSpawnPos() {
 		if (allowedSpawnPoints != nullptr) {
 			int randomPoint = random->Next(0, allowedSpawnPoints->Count);
