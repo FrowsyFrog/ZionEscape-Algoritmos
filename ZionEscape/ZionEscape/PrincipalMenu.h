@@ -149,7 +149,10 @@ namespace ZionEscape {
 #pragma endregion
 	private: Void btnStart_Click(Object^ sender, EventArgs^ e) {
 	
-		if (formGame == nullptr) formGame = gcnew FormGame(this, false);
+		if (!formGame) {
+			formGame = gcnew FormGame(this, false);
+			formGame->LoadGame();
+		}
 		else formGame->RestartGame();
 	
 		this->Hide();
@@ -157,11 +160,11 @@ namespace ZionEscape {
 	}
 	private: Void btnReanudar_Click(Object^ sender, System::EventArgs^ e) {
 
-		if (formGame == nullptr) {
-			formGame = gcnew FormGame(this, true);
-		}
+		if (!formGame) formGame = gcnew FormGame(this, true);
+		formGame->LoadGame();
 		this->Hide();
 		formGame->Show();
+		
 }
 private: Void btnExit_Click(Object^ sender, System::EventArgs^ e) {
 	this->Close();
