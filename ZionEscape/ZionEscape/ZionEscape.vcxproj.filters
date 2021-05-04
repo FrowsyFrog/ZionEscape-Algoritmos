@@ -68,6 +68,9 @@
     <ClInclude Include="Lambda.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MyList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ZionEscape.cpp">
@@ -119,6 +122,9 @@
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="Lambda.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

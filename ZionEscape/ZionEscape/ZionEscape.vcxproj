@@ -140,6 +140,7 @@
     <ClInclude Include="HeartUI.h" />
     <ClInclude Include="Lambda.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MyList.h" />
     <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="PathNode.h" />
     <ClInclude Include="pch.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="HeartUI.cpp" />
     <ClCompile Include="Lambda.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MyList.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="PathNode.cpp" />
     <ClCompile Include="pch.cpp">
